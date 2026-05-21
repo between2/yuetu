@@ -10,28 +10,25 @@
         h3 { text-align: center; color: #333; margin-top: 0; font-size: 16px; margin-bottom: 12px; }
         
         .input-group { margin-bottom: 10px; }
-        /* 输入框稍微减小高度 */
-        input { width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; transition: border-color 0.3s; }
+        input { width: 100%; padding: 0 12px; height: 42px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
         input:focus { border-color: #007bff; outline: none; }
         input:read-only { background-color: #f8f9fa; color: #666; }
         
-        .input-with-btn { display: flex; gap: 8px; margin-bottom: 10px; }
+        .input-with-btn { display: flex; gap: 8px; margin-bottom: 10px; align-items: stretch; }
         .input-with-btn input { flex: 1; margin-bottom: 0; }
-        /* 骰子按钮缩小 */
-        .icon-btn { width: 38px; height: 38px; padding: 0; display: flex; justify-content: center; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-bottom: 0; box-sizing: border-box; }
+        .icon-btn { width: 42px; height: 42px; padding: 0; display: flex; justify-content: center; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 18px; cursor: pointer; transition: all 0.2s; box-sizing: border-box; }
         .icon-btn:active { background: #e2e6ea; transform: scale(0.95); }
         
         .input-with-switch { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .input-with-switch input { flex: 1; margin-bottom: 0; }
         .input-with-switch label.text-label { font-size: 13px; color: #333; flex: 1; margin-bottom: 0; }
         
-        .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-        .captcha-row input { margin-bottom: 0; flex: 1; }
-        /* 验证码图片高度稍微压缩 */
-        .captcha-row img { height: 38px; width: 110px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
+        /* 首页验证码绝对等高对齐 */
+        .captcha-row { display: flex; gap: 8px; align-items: stretch; margin-bottom: 10px; }
+        .captcha-row input { margin-bottom: 0; flex: 1; height: 42px; }
+        .captcha-row img { height: 42px; width: 120px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
         
-        /* 核心按钮瘦身：字号减小，高度变薄 */
-        button { width: 100%; padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 14px; margin-bottom: 12px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        button { width: 100%; padding: 0 15px; height: 42px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 15px; margin-bottom: 12px; cursor: pointer; font-weight: bold; transition: all 0.3s; box-sizing: border-box; }
         button:active { transform: scale(0.98); }
         button.secondary { background: #007bff; }
         button:disabled { background: #ccc !important; cursor: not-allowed; transform: none; }
@@ -61,26 +58,25 @@
         #toast { visibility: hidden; min-width: 160px; background-color: rgba(0, 0, 0, 0.85); color: #fff; text-align: center; border-radius: 30px; padding: 10px 16px; position: fixed; z-index: 1000; left: 50%; transform: translateX(-50%); bottom: 90px; font-size: 13px; opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none; }
         #toast.show { visibility: visible; opacity: 1; bottom: 85px; }
         
-        /* 历史记录恢复原样细节 */
         .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 12px; line-height: 1.6; word-break: break-all; }
         
-        /* 批量卡片视觉瘦身 */
-        .batch-card { border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: #fafafa; position: relative; }
+        /* 【核心修改】批量卡片内的所有元素：输入框、按钮、图片 完美强制等高对齐 */
+        .batch-card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 12px; background: #fafafa; position: relative; }
         .batch-card.success { border-color: #28a745; background: #e8f5e9; }
-        .batch-card .close-btn { position: absolute; top: -6px; right: -6px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 18px; font-size: 13px; cursor: pointer; }
-        .batch-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: center; }
-        .batch-row input { padding: 6px 10px; font-size: 13px; margin: 0; height: 34px; }
-        .batch-row button { padding: 6px 12px; font-size: 13px; margin: 0; width: auto; flex: none; height: 34px; }
-        .batch-row img { height: 34px; width: 85px; border-radius: 4px; object-fit: contain; background: #fff; border: 1px solid #ddd; flex: none; }
+        .batch-card .close-btn { position: absolute; top: -6px; right: -6px; background: #dc3545; color: white; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 20px; font-size: 14px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .batch-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: stretch; /* 强制所有子元素等高 */ }
+        .batch-row input { padding: 0 10px; font-size: 13px; margin: 0; height: 40px; box-sizing: border-box; }
+        .batch-row button { padding: 0 12px; font-size: 14px; margin: 0; width: auto; flex: none; height: 40px; box-sizing: border-box; }
+        .batch-row img { height: 40px; width: 105px; border-radius: 4px; object-fit: contain; background: #fff; border: 1px solid #ddd; flex: none; box-sizing: border-box; padding: 2px; cursor: pointer; }
         .batch-status { font-size: 11px; color: #666; margin-top: 4px; font-weight: bold; }
         
-        /* 日志框 */
         .decrypted-log-box { width: 100%; height: 70px; font-family: monospace; font-size: 11px; margin-top: 8px; padding: 6px; border: 1px solid #bce8f1; border-radius: 4px; box-sizing: border-box; background: #ebf7fa; color: #31708f; word-break: break-all; resize: vertical; overflow-y: auto; }
         .version-text { font-size: 11px; color: #aaa; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
-<div id="toast">已更新样式</div>
+<div id="toast">保存成功</div>
+
 <div id="page-home" class="page active">
     <div class="box">
         <h3>单个注册</h3>
@@ -106,7 +102,7 @@
         </div>
         <button onclick="doRegister('home')" id="btnReg-home">2. 提交注册</button>
         <div id="logContainer-home"></div>
-        <div class="version-text">Version: v2.3.1 (全功能恢复+视觉优化版)</div>
+        <div class="version-text">Version: v2.4.0 (云端代理上传版)</div>
     </div>
 </div>
 
@@ -114,15 +110,15 @@
     <div class="box">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <h3 style="margin: 0;">流水线工厂</h3>
-            <button class="secondary" style="width: auto; padding: 5px 12px; margin: 0; font-size: 12px;" onclick="addBatchTask()">+ 添加账号</button>
+            <button class="secondary" style="width: auto; padding: 0 12px; height: 32px; margin: 0; font-size: 13px;" onclick="addBatchTask()">+ 添加账号</button>
         </div>
         <p style="font-size: 11px; color: #888; margin-top: 0; margin-bottom: 12px; line-height: 1.4;">
-            注：开启全自动捕获，如遇复杂加密邮件将在下方智能解码展示。
+            注：开启全自动捕获，获取验证码后将自动秒提注册。
         </p>
-        <div style="display: flex; gap: 6px; margin-bottom: 12px;">
-            <button class="secondary" onclick="batchGenerateEmails()" style="margin:0; font-size: 13px; padding: 8px 0; flex: 1; background: #6c757d;">🎲 全随机</button>
-            <button class="secondary" onclick="batchSendEmails()" style="margin:0; font-size: 13px; padding: 8px 0; flex: 1;">✉️ 全发信</button>
-            <button class="secondary" onclick="batchRegister()" style="margin:0; font-size: 13px; padding: 8px 0; flex: 1; background: #28a745;">🚀 全注册</button>
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+            <button class="secondary" onclick="batchGenerateEmails()" style="margin:0; font-size: 13px; height: 38px; flex: 1; background: #6c757d;">🎲 随机</button>
+            <button class="secondary" onclick="batchSendEmails()" style="margin:0; font-size: 13px; height: 38px; flex: 1;">✉️ 发信</button>
+            <button class="secondary" onclick="batchRegister()" style="margin:0; font-size: 13px; height: 38px; flex: 1; background: #28a745;">🚀 注册</button>
         </div>
         <div id="batchContainer"></div>
     </div>
@@ -130,9 +126,10 @@
 
 <div id="page-my" class="page">
     <div class="box">
-        <h3>监听设置 (RPA)</h3>
-        <div class="input-group"><input type="text" id="mailCatcherUrl" placeholder="Worker 监听地址"></div>
-        <button class="secondary" style="background: #28a745; margin-top: 5px; margin-bottom: 0;" onclick="saveSettings(true)">保存监听设置</button>
+        <h3>配置中枢 (云端代理)</h3>
+        <p style="font-size: 11px; color: #666; margin-top: 0;">此 Worker 现在不仅接收邮件，还为您代理 WebDAV 请求穿透跨域限制。</p>
+        <div class="input-group"><input type="text" id="mailCatcherUrl" placeholder="Worker 监听地址 (必填)"></div>
+        <button class="secondary" style="background: #28a745; margin-top: 5px; margin-bottom: 0;" onclick="saveSettings(true)">保存核心网关</button>
     </div>
     
     <div class="box">
@@ -152,7 +149,7 @@
     </div>
     
     <div class="box">
-        <h3>WebDAV 云端同步</h3>
+        <h3>WebDAV 云端穿透同步</h3>
         <div class="input-with-switch">
             <label class="text-label">注册成功后自动上传</label>
             <label class="switch"><input type="checkbox" id="toggleWebDAV" onchange="saveSettings(true)"><span class="slider"></span></label>
@@ -163,7 +160,7 @@
         <button class="secondary" style="background: #28a745; margin-bottom: 12px;" onclick="saveSettings(true)">💾 保存 WebDAV 配置</button>
         <div style="display: flex; gap: 8px;">
             <button class="secondary" style="margin-bottom: 0; font-size: 13px; background: #6c757d;" onclick="exportHistory()">保存到手机</button>
-            <button class="secondary" style="margin-bottom: 0; font-size: 13px;" onclick="syncToWebDAV(true)">手动同步云端</button>
+            <button class="secondary" style="margin-bottom: 0; font-size: 13px;" onclick="syncToWebDAV(true)">手动云端同步</button>
         </div>
     </div>
     
@@ -203,7 +200,6 @@
         document.getElementById('presetInvite').value = settings.presetInvite || '';
         document.getElementById('togglePwd').checked = settings.usePresetPwd || false;
         document.getElementById('toggleInvite').checked = settings.usePresetInvite || false;
-        // 恢复读取 WebDAV
         document.getElementById('webdavUrl').value = settings.webdavUrl || '';
         document.getElementById('webdavUser').value = settings.webdavUser || '';
         document.getElementById('webdavPwd').value = settings.webdavPwd || '';
@@ -216,7 +212,6 @@
             domains: presetDomains, mailCatcherUrl: document.getElementById('mailCatcherUrl').value.trim(),
             presetPwd: document.getElementById('presetPwd').value.trim(), presetInvite: document.getElementById('presetInvite').value.trim(),
             usePresetPwd: document.getElementById('togglePwd').checked, usePresetInvite: document.getElementById('toggleInvite').checked,
-            // 恢复保存 WebDAV
             webdavUrl: document.getElementById('webdavUrl').value.trim(), webdavUser: document.getElementById('webdavUser').value.trim(),
             webdavPwd: document.getElementById('webdavPwd').value.trim(), autoSyncWebDAV: document.getElementById('toggleWebDAV').checked
         };
@@ -246,7 +241,7 @@
     function addBatchTask() {
         batchCounter++; const id = `batch-${batchCounter}`; activeTasks.push(id);
         taskCtx[id] = { token: '', cookie: '', codeVali: '', emailVali: '', loaded: false, isRegistering: false, isSending: false };
-        const html = `<div class="batch-card" id="card-${id}"><div class="close-btn" onclick="removeBatchTask('${id}')">×</div><div class="batch-row"><input type="email" id="email-${id}" placeholder="邮箱" oninput="checkEmailInput('${id}')"><div class="icon-btn" style="width:34px; height:34px;" onclick="generateRandomEmail('${id}')">🎲</div></div><div class="batch-row"><input type="text" id="captchaInput-${id}" placeholder="码" style="width: 50px;"><img id="captchaImg-${id}" src="" onclick="refreshCaptcha('${id}')"><button class="secondary" id="btnSend-${id}" onclick="sendEmail('${id}')" disabled>发信</button></div><div class="batch-row"><input type="text" id="emailCode-${id}" placeholder="验证码"><button class="secondary" id="btnReg-${id}" onclick="doRegister('${id}')">注册</button></div><div class="batch-status" id="status-${id}">等待操作...</div><div id="logContainer-${id}"></div></div>`;
+        const html = `<div class="batch-card" id="card-${id}"><div class="close-btn" onclick="removeBatchTask('${id}')">×</div><div class="batch-row"><input type="email" id="email-${id}" placeholder="邮箱" oninput="checkEmailInput('${id}')"><div class="icon-btn" style="width:40px; height:40px;" onclick="generateRandomEmail('${id}')">🎲</div></div><div class="batch-row"><input type="text" id="captchaInput-${id}" placeholder="码" style="width: 60px;"><img id="captchaImg-${id}" src="" onclick="refreshCaptcha('${id}')"><button class="secondary" id="btnSend-${id}" onclick="sendEmail('${id}')" disabled>发信</button></div><div class="batch-row"><input type="text" id="emailCode-${id}" placeholder="验证码"><button class="secondary" id="btnReg-${id}" onclick="doRegister('${id}')">注册</button></div><div class="batch-status" id="status-${id}">等待操作...</div><div id="logContainer-${id}"></div></div>`;
         document.getElementById('batchContainer').insertAdjacentHTML('beforeend', html);
     }
 
@@ -289,7 +284,6 @@
         if (emailVal.includes('@')) { btn.disabled = false; if (!taskCtx[id].loaded) refreshCaptcha(id); } else { btn.disabled = true; }
     }
 
-    // 【核心保留】带解密明文展示的自动抓取
     async function autoFetchEmailCode(email, id, catcherApi) {
         const statusEl = document.getElementById(`status-${id}`); if(!statusEl) return;
         const logContainer = document.getElementById(`logContainer-${id}`);
@@ -311,8 +305,12 @@
 
                     if (data.code && document.getElementById(`emailCode-${id}`)) {
                         document.getElementById(`emailCode-${id}`).value = data.code;
-                        statusEl.innerText = "⚡ 明文提取成功，已填充"; statusEl.style.color = "#28a745";
-                        showToast(`🎉 收到验证码！`, 1500); return; 
+                        statusEl.innerText = "⚡ 明文提取成功，自动提交注册..."; statusEl.style.color = "#28a745";
+                        showToast(`🎉 收到验证码，正在连击注册！`, 1500); 
+                        
+                        // 【满足需求】：恢复自动提交注册功能
+                        setTimeout(() => { doRegister(id, true); }, 800); 
+                        return; 
                     } else {
                         statusEl.innerText = "⚠️ 正则未能提取出纯数字，请阅读下方控制台手动填入"; statusEl.style.color = "#ff9800"; return;
                     }
@@ -373,7 +371,6 @@
         finally { if (taskCtx[id]) taskCtx[id].isRegistering = false; if (btn && statusEl && !statusEl.innerText.includes("✅")) { btn.disabled = false; btn.innerText = id === 'home' ? "2. 提交注册" : "注册"; } }
     }
     
-    // 恢复 2.2.0 的完整历史记录展示
     function addHistoryRecord(email, password, inviteCode) {
         let history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); const now = new Date();
         const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
@@ -388,10 +385,53 @@
         container.innerHTML = html;
     }
 
-    // 完美恢复 WebDAV 和本地导出功能
     function getCsvContent() { const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); let csvContent = "\uFEFF注册时间,账号,密码,邀请码\n"; history.forEach(item => { csvContent += `${item.time},${item.email},${item.password},${item.invite}\n`; }); return csvContent; }
+    
     function exportHistory() { const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); if (history.length === 0) return showToast("暂无记录可导出"); const blob = new Blob([getCsvContent()], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); const url = URL.createObjectURL(blob); link.setAttribute("href", url); link.setAttribute("download", `YT_Accounts_${new Date().getTime()}.csv`); link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast("✅ 已触发下载"); }
-    async function syncToWebDAV(isManual) { const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); if (history.length === 0 && isManual) return showToast("本地暂无记录，无需同步"); const url = document.getElementById('webdavUrl').value.trim(), user = document.getElementById('webdavUser').value.trim(), pwd = document.getElementById('webdavPwd').value.trim(); if (!url || !user || !pwd) { if (isManual) showToast("⚠️ 请填写完整的 WebDAV 配置"); return; } if (isManual) showToast("正在同步到云端..."); try { const base64Auth = btoa(unescape(encodeURIComponent(user + ':' + pwd))); const response = await fetch(url, { method: 'PUT', headers: { 'Authorization': 'Basic ' + base64Auth, 'Content-Type': 'text/csv; charset=utf-8' }, body: getCsvContent() }); if (response.ok || response.status === 201 || response.status === 204) { if (isManual) showToast("✅ 云端同步成功！"); } else { if (isManual) showToast(`❌ 同步失败 (状态码 ${response.status})`); } } catch (error) { if (isManual) showToast(`❌ 网络请求失败，请检查链接`); } }
+    
+    // 【核心升级】：通过 Worker 代理上传 WebDAV，解决 CORS 跨域拦截
+    async function syncToWebDAV(isManual) { 
+        const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); 
+        if (history.length === 0 && isManual) return showToast("本地暂无记录，无需同步"); 
+        
+        const webdavUrl = document.getElementById('webdavUrl').value.trim();
+        const user = document.getElementById('webdavUser').value.trim();
+        const pwd = document.getElementById('webdavPwd').value.trim(); 
+        const catcherApi = document.getElementById('mailCatcherUrl').value.trim();
+        
+        if (!webdavUrl || !user || !pwd || !catcherApi) { 
+            if (isManual) showToast("⚠️ 请确保WebDAV及上方监听地址均已配置"); 
+            return; 
+        } 
+        
+        if (isManual) showToast("正在通过云端穿透同步..."); 
+        
+        try { 
+            const base64Auth = btoa(unescape(encodeURIComponent(user + ':' + pwd))); 
+            // 访问我们在 Worker 里新加的 /webdav_proxy 路由
+            const proxyUrl = `${catcherApi.replace(/\/$/, '')}/webdav_proxy`;
+            
+            const response = await fetch(proxyUrl, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({
+                    targetUrl: webdavUrl,
+                    auth: base64Auth,
+                    content: getCsvContent()
+                }) 
+            }); 
+            
+            const resData = await response.json();
+            
+            if (resData.ok || resData.status === 201 || resData.status === 204) { 
+                if (isManual) showToast("✅ 云端同步成功！"); 
+            } else { 
+                if (isManual) showToast(`❌ 同步失败 (网关状态码 ${resData.status})`); 
+            } 
+        } catch (error) { 
+            if (isManual) showToast(`❌ 云端请求失败，请检查监听配置`); 
+        } 
+    }
 </script>
 </body>
 </html>
