@@ -5,59 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>专属注册工具</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 70px; /* 给底部导航留出空间 */ }
+        body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 90px; }
         .box { background: #fff; padding: 20px; border-radius: 12px; margin: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h3 { text-align: center; color: #333; margin-top: 0; }
         
-        /* 表单样式 */
         .input-group { margin-bottom: 12px; }
         input { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
         input:focus { border-color: #007bff; outline: none; }
         input:read-only { background-color: #f8f9fa; color: #666; }
         
-        /* 带开关的同行布局 */
         .input-with-switch { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .input-with-switch input { flex: 1; margin-bottom: 0; }
+        .input-with-switch label.text-label { font-size: 14px; color: #333; flex: 1; margin-bottom: 0; }
         
-        /* 验证码同行布局 */
         .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
         .captcha-row input { margin-bottom: 0; flex: 1; }
         .captcha-row img { height: 42px; width: 120px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
         
-        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; margin-bottom: 15px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
+        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; margin-bottom: 15px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        button:active { transform: scale(0.98); }
         button.secondary { background: #007bff; }
-        button:disabled { background: #ccc; cursor: not-allowed; }
+        button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        
         hr { border: 0; border-top: 1px dashed #ddd; margin: 20px 0; }
         #status { font-size: 12px; color: #666; text-align: center; margin-top: 10px; }
         
-        /* iOS 风格开关开关 */
+        /* iOS风格开关 */
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         input:checked + .slider { background-color: #007bff; }
         input:checked + .slider:before { transform: translateX(20px); }
         
-        /* 页面切换逻辑 */
         .page { display: none; animation: fadeIn 0.3s ease-in-out; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 底部导航栏 */
-        .tab-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #ddd; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-item { flex: 1; text-align: center; padding: 12px 0; font-size: 14px; color: #666; cursor: pointer; transition: color 0.3s; }
-        .tab-item.active { color: #007bff; font-weight: bold; }
+        /* 核心修改1：现代化的悬浮胶囊导航栏 */
+        .tab-bar { 
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); 
+            width: 220px; background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            display: flex; border-radius: 40px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 100; padding: 6px; 
+        }
+        .tab-item { 
+            flex: 1; text-align: center; padding: 10px 0; font-size: 14px; 
+            color: #666; cursor: pointer; transition: all 0.3s ease; border-radius: 30px; 
+        }
+        .tab-item.active { 
+            background: #007bff; color: #fff; font-weight: bold; 
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3); 
+        }
         
-        /* 历史记录卡片 */
-        .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; position: relative; }
+        /* 核心修改2：全局 Toast 提示框 */
+        #toast {
+            visibility: hidden; min-width: 180px; background-color: rgba(0, 0, 0, 0.8); 
+            color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px;
+            position: fixed; z-index: 1000; left: 50%; transform: translateX(-50%);
+            bottom: 90px; font-size: 14px; opacity: 0; transition: opacity 0.3s, bottom 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
+
+        .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; }
         .history-card strong { color: #333; }
         .history-time { font-size: 11px; color: #999; margin-bottom: 5px; }
         .empty-tip { text-align: center; color: #999; font-size: 13px; padding: 20px 0; }
-        
         .version-text { font-size: 11px; color: #aaa; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
+
+<div id="toast">保存成功</div>
 
 <div id="page-home" class="page active">
     <div class="box">
@@ -66,53 +87,68 @@
             <input type="email" id="email" placeholder="输入邮箱 (例如: xxx@xxx.com)">
         </div>
         <div class="captcha-row">
-            <input type="text" id="captchaInput" placeholder="输入右侧图形验证码" style="text-transform: uppercase;">
+            <input type="text" id="captchaInput" placeholder="输入图形验证码" style="text-transform: uppercase;">
             <img id="captchaImg" src="" onclick="refreshCaptcha()" title="点击刷新" alt="等待输入...">
         </div>
         <button class="secondary" onclick="sendEmail()" id="btnSend" disabled>请先输入正确的邮箱</button>
         <div id="status">填写邮箱后自动加载验证码</div>
-        
         <hr>
-        
         <div class="input-group">
             <input type="text" id="emailCode" placeholder="输入邮箱收到的6位验证码">
         </div>
-        
         <div class="input-with-switch">
             <input type="password" id="password" placeholder="设置密码">
-            <label class="switch" title="启用预设密码">
-                <input type="checkbox" id="togglePwd" onchange="applyPresets()">
-                <span class="slider"></span>
-            </label>
+            <label class="switch" title="启用预设密码"><input type="checkbox" id="togglePwd" onchange="applyPresets()"><span class="slider"></span></label>
         </div>
-        
         <div class="input-with-switch">
             <input type="text" id="inviteCode" placeholder="邀请码 (必填/选填)">
-            <label class="switch" title="启用预设邀请码">
-                <input type="checkbox" id="toggleInvite" onchange="applyPresets()">
-                <span class="slider"></span>
-            </label>
+            <label class="switch" title="启用预设邀请码"><input type="checkbox" id="toggleInvite" onchange="applyPresets()"><span class="slider"></span></label>
         </div>
-        
         <button onclick="doRegister()" id="btnReg">2. 提交注册</button>
-        <div class="version-text">Version: v1.6.0 (本地多功能版)</div>
+        <div class="version-text">Version: v1.7.1 (悬浮导航 + 优化配置版)</div>
     </div>
 </div>
 
 <div id="page-my" class="page">
     <div class="box">
-        <h3>通用设置</h3>
-        <p style="font-size: 12px; color: #666; margin-top: 0;">设置后，可在首页打开开关一键填充</p>
+        <h3>通用预设</h3>
+        <p style="font-size: 12px; color: #666; margin-top: 0;">设置后可在首页打开开关一键填充</p>
         <div class="input-group">
-            <label style="font-size: 12px; color: #333; margin-bottom: 5px; display: block;">预设统一密码</label>
-            <input type="text" id="presetPwd" placeholder="在此输入预设密码" oninput="saveSettings()">
+            <input type="text" id="presetPwd" placeholder="在此输入预设统一密码">
         </div>
         <div class="input-group">
-            <label style="font-size: 12px; color: #333; margin-bottom: 5px; display: block;">预设邀请码</label>
-            <input type="text" id="presetInvite" placeholder="在此输入预设邀请码" oninput="saveSettings()">
+            <input type="text" id="presetInvite" placeholder="在此输入预设邀请码">
         </div>
+        <button class="secondary" style="background: #28a745; margin-bottom: 0; padding: 10px;" onclick="saveSettings(true)">💾 保存预设</button>
     </div>
     
+    <div class="box">
+        <h3>WebDAV 云端同步</h3>
+        <div class="input-with-switch">
+            <label class="text-label">注册成功后自动上传</label>
+            <label class="switch">
+                <input type="checkbox" id="toggleWebDAV" onchange="saveSettings(true)">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="input-group">
+            <input type="text" id="webdavUrl" placeholder="文件完整地址 (如 https://.../yt.csv)">
+        </div>
+        <div class="input-group">
+            <input type="text" id="webdavUser" placeholder="WebDAV 用户名">
+        </div>
+        <div class="input-group">
+            <input type="password" id="webdavPwd" placeholder="WebDAV 密码">
+        </div>
+        
+        <button class="secondary" style="background: #28a745; padding: 10px; margin-bottom: 15px;" onclick="saveSettings(true)">💾 保存 WebDAV 配置</button>
+        
+        <div style="display: flex; gap: 10px;">
+            <button class="secondary" style="margin-bottom: 0; padding: 10px; font-size: 14px; background: #6c757d;" onclick="exportHistory()">保存到手机</button>
+            <button class="secondary" style="margin-bottom: 0; padding: 10px; font-size: 14px;" onclick="syncToWebDAV(true)">手动同步云端</button>
+        </div>
+    </div>
+
     <div class="box">
         <h3>成功注册记录</h3>
         <div id="historyContainer"></div>
@@ -121,144 +157,171 @@
 
 <div class="tab-bar">
     <div class="tab-item active" onclick="switchTab('home', this)">首页</div>
-    <div class="tab-item" onclick="switchTab('my', this)">我的</div>
+    <div class="tab-item" onclick="switchTab('my', this)">我的设置</div>
 </div>
 
 <script>
-    // ================= 配置区 =================
     const MY_PROXY = "https://broken-smoke-6508.zad13.workers.dev"; 
-    
-    let currentVerifyToken = "";
-    let tempCodeVali = "";
-    let tempEmailVali = "";
-    let isCaptchaLoaded = false;
-    let currentSessionCookie = "";
+    let currentVerifyToken = "", tempCodeVali = "", tempEmailVali = "", isCaptchaLoaded = false, currentSessionCookie = "";
 
-    // ================= 初始化与本地存储逻辑 =================
     window.onload = function() {
         loadSettings();
         renderHistory();
     };
+    
+    // ================= Toast 提示功能 =================
+    let toastTimeout;
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.innerText = msg;
+        toast.classList.add("show");
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => { toast.classList.remove("show"); }, 2000);
+    }
 
-    // 读取本地设置
+    // ================= 配置存取逻辑 =================
     function loadSettings() {
         const settings = JSON.parse(localStorage.getItem('ytSettings') || '{}');
-        // 恢复我的页面输入框的值
         document.getElementById('presetPwd').value = settings.presetPwd || '';
         document.getElementById('presetInvite').value = settings.presetInvite || '';
-        // 恢复首页开关的状态
         document.getElementById('togglePwd').checked = settings.usePresetPwd || false;
         document.getElementById('toggleInvite').checked = settings.usePresetInvite || false;
-        // 应用预设到首页输入框
+        
+        document.getElementById('webdavUrl').value = settings.webdavUrl || '';
+        document.getElementById('webdavUser').value = settings.webdavUser || '';
+        document.getElementById('webdavPwd').value = settings.webdavPwd || '';
+        document.getElementById('toggleWebDAV').checked = settings.autoSyncWebDAV || false;
+        
         applyPresets();
     }
 
-    // 保存设置 (当在"我的"页面输入或在"首页"拨动开关时触发)
-    function saveSettings() {
+    function saveSettings(showFeedback = false) {
         const settings = {
             presetPwd: document.getElementById('presetPwd').value.trim(),
             presetInvite: document.getElementById('presetInvite').value.trim(),
             usePresetPwd: document.getElementById('togglePwd').checked,
-            usePresetInvite: document.getElementById('toggleInvite').checked
+            usePresetInvite: document.getElementById('toggleInvite').checked,
+            webdavUrl: document.getElementById('webdavUrl').value.trim(),
+            webdavUser: document.getElementById('webdavUser').value.trim(),
+            webdavPwd: document.getElementById('webdavPwd').value.trim(),
+            autoSyncWebDAV: document.getElementById('toggleWebDAV').checked
         };
         localStorage.setItem('ytSettings', JSON.stringify(settings));
+        
+        if (showFeedback) {
+            showToast("✅ 配置已保存生效");
+        }
     }
 
-    // 将预设值应用到首页表单
     function applyPresets() {
-        saveSettings(); // 开关变化时先保存状态
-        const pwdInput = document.getElementById('password');
-        const inviteInput = document.getElementById('inviteCode');
-        const presetPwd = document.getElementById('presetPwd').value.trim();
-        const presetInvite = document.getElementById('presetInvite').value.trim();
-        const usePwd = document.getElementById('togglePwd').checked;
-        const useInvite = document.getElementById('toggleInvite').checked;
+        saveSettings(false); // 隐式保存状态
+        const pwdInput = document.getElementById('password'), inviteInput = document.getElementById('inviteCode');
+        const presetPwd = document.getElementById('presetPwd').value.trim(), presetInvite = document.getElementById('presetInvite').value.trim();
+        const usePwd = document.getElementById('togglePwd').checked, useInvite = document.getElementById('toggleInvite').checked;
 
-        if (usePwd && presetPwd) {
-            pwdInput.value = presetPwd;
-            pwdInput.readOnly = true; // 开启预设时，设为只读，体验更好
-        } else {
-            if (usePwd && !presetPwd) alert("请先前往「我的」页面设置预设密码");
-            pwdInput.value = "";
-            pwdInput.readOnly = false;
-            document.getElementById('togglePwd').checked = false; // 复位开关
-        }
+        if (usePwd && presetPwd) { pwdInput.value = presetPwd; pwdInput.readOnly = true; } 
+        else { if (usePwd && !presetPwd) { showToast("⚠️ 请先在我的页面设置预设密码"); document.getElementById('togglePwd').checked = false; } pwdInput.value = ""; pwdInput.readOnly = false; }
 
-        if (useInvite && presetInvite) {
-            inviteInput.value = presetInvite;
-            inviteInput.readOnly = true;
-        } else {
-            if (useInvite && !presetInvite) alert("请先前往「我的」页面设置预设邀请码");
-            inviteInput.value = "";
-            inviteInput.readOnly = false;
-            document.getElementById('toggleInvite').checked = false;
-        }
-        saveSettings(); // 如果开关被复位，重新保存一下
+        if (useInvite && presetInvite) { inviteInput.value = presetInvite; inviteInput.readOnly = true; } 
+        else { if (useInvite && !presetInvite) { showToast("⚠️ 请先在我的页面设置邀请码"); document.getElementById('toggleInvite').checked = false; } inviteInput.value = ""; inviteInput.readOnly = false; }
     }
 
-    // 追加成功注册的记录
     function addHistoryRecord(email, password, inviteCode) {
         let history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
         const now = new Date();
         const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
         
-        history.unshift({
-            email: email,
-            password: password,
-            invite: inviteCode || '无',
-            time: timeString
-        });
-        
+        history.unshift({ email: email, password: password, invite: inviteCode || '无', time: timeString });
         localStorage.setItem('ytHistory', JSON.stringify(history));
-        renderHistory(); // 重新渲染列表
+        renderHistory();
+        
+        if (document.getElementById('toggleWebDAV').checked) {
+            syncToWebDAV(false);
+        }
     }
 
-    // 渲染历史记录列表
     function renderHistory() {
         const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
         const container = document.getElementById('historyContainer');
-        
-        if (history.length === 0) {
-            container.innerHTML = '<div class="empty-tip">暂无注册成功的账号</div>';
-            return;
-        }
+        if (history.length === 0) return container.innerHTML = '<div class="empty-tip">暂无注册成功的账号</div>';
         
         let html = '';
         history.forEach(item => {
-            html += `
-                <div class="history-card">
-                    <div class="history-time">${item.time}</div>
-                    <div>账号：<strong>${item.email}</strong></div>
-                    <div>密码：<strong>${item.password}</strong></div>
-                    <div>邀请码：${item.invite}</div>
-                </div>
-            `;
+            html += `<div class="history-card"><div class="history-time">${item.time}</div><div>账号：<strong>${item.email}</strong></div><div>密码：<strong>${item.password}</strong></div><div>邀请码：${item.invite}</div></div>`;
         });
         container.innerHTML = html;
     }
 
-    // ================= 页面切换逻辑 =================
     function switchTab(tabName, el) {
-        // 更新导航栏样式
         document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
         el.classList.add('active');
-        
-        // 切换页面显示
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
         document.getElementById(`page-${tabName}`).classList.add('active');
-        
-        // 每次切回首页时，自动应用一下预设 (防止在我的页面改了没生效)
         if(tabName === 'home') applyPresets();
     }
 
-    // ================= 核心注册网络请求 =================
+    // ================= 数据导出 & WebDAV =================
+    function getCsvContent() {
+        const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
+        let csvContent = "\uFEFF注册时间,账号,密码,邀请码\n";
+        history.forEach(item => { csvContent += `${item.time},${item.email},${item.password},${item.invite}\n`; });
+        return csvContent;
+    }
+
+    function exportHistory() {
+        const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
+        if (history.length === 0) return showToast("暂无记录可导出");
+        
+        const blob = new Blob([getCsvContent()], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `YT_Accounts_${new Date().getTime()}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast("✅ 已触发下载");
+    }
+
+    async function syncToWebDAV(isManual) {
+        const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
+        if (history.length === 0 && isManual) return showToast("本地暂无记录，无需同步");
+
+        const url = document.getElementById('webdavUrl').value.trim();
+        const user = document.getElementById('webdavUser').value.trim();
+        const pwd = document.getElementById('webdavPwd').value.trim();
+        
+        if (!url || !user || !pwd) {
+            if (isManual) showToast("⚠️ 请填写完整的 WebDAV 配置");
+            return;
+        }
+
+        if (isManual) showToast("正在同步到云端...");
+        const csvData = getCsvContent();
+        
+        try {
+            const base64Auth = btoa(unescape(encodeURIComponent(user + ':' + pwd)));
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: { 'Authorization': 'Basic ' + base64Auth, 'Content-Type': 'text/csv; charset=utf-8' },
+                body: csvData
+            });
+
+            if (response.ok || response.status === 201 || response.status === 204) {
+                if (isManual) showToast("✅ 云端同步成功！");
+            } else {
+                if (isManual) alert(`❌ 同步失败 (状态码 ${response.status})\n可能是 WebDAV 服务器拦截了浏览器的 CORS 跨域请求。`);
+            }
+        } catch (error) {
+            if (isManual) alert(`❌ 网络请求失败\n请检查链接是否正确，或服务器是否允许前端跨域 (CORS)。`);
+        }
+    }
+
+    // ================= 核心注册请求 (复用 v1.5.0 的完美逻辑) =================
     function generateToken() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let token = '';
-        for (let i = 0; i < 32; i++) {
-            token += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return token;
+        let token = ''; for (let i = 0; i < 32; i++) token += chars.charAt(Math.floor(Math.random() * chars.length)); return token;
     }
 
     async function refreshCaptcha() {
@@ -271,43 +334,24 @@
             const res = await fetch(targetUrl);
             const cookieVal = res.headers.get("X-Yt-Cookie");
             if (cookieVal) currentSessionCookie = cookieVal;
-
             const base64Text = await res.text();
-            if (base64Text.includes("iVBOR")) {
-                img.src = "data:image/png;base64," + base64Text;
-                document.getElementById('status').innerText = "验证码加载成功";
-                isCaptchaLoaded = true;
-            } else {
-                document.getElementById('status').innerText = "返回数据异常";
-            }
-        } catch (e) {
-            document.getElementById('status').innerText = "网络请求失败，请检查 Worker";
-        }
+            if (base64Text.includes("iVBOR")) { img.src = "data:image/png;base64," + base64Text; document.getElementById('status').innerText = "验证码加载成功"; isCaptchaLoaded = true; } 
+            else { document.getElementById('status').innerText = "返回数据异常"; }
+        } catch (e) { document.getElementById('status').innerText = "网络请求失败，请检查 Worker"; }
     }
 
     document.getElementById('email').addEventListener('input', function() {
-        const emailVal = this.value.trim();
-        const btn = document.getElementById('btnSend');
-        
-        if (emailVal.includes('@') && emailVal.includes('.')) {
-            btn.disabled = false;
-            btn.innerText = "1. 获取邮件验证码";
-            if (!isCaptchaLoaded) refreshCaptcha();
-        } else {
-            btn.disabled = true;
-            btn.innerText = "请先输入正确的邮箱";
-        }
+        const emailVal = this.value.trim(); const btn = document.getElementById('btnSend');
+        if (emailVal.includes('@') && emailVal.includes('.')) { btn.disabled = false; btn.innerText = "1. 获取邮件验证码"; if (!isCaptchaLoaded) refreshCaptcha(); } 
+        else { btn.disabled = true; btn.innerText = "请先输入正确的邮箱"; }
     });
 
     async function sendEmail() {
         const email = document.getElementById('email').value.trim();
         const captchaValue = document.getElementById('captchaInput').value.trim().toUpperCase(); 
         const btn = document.getElementById('btnSend');
-        
-        if(!email || !captchaValue) return alert("请填写完整邮箱和图形验证码");
-
-        btn.disabled = true;
-        btn.innerText = "发送中...";
+        if(!email || !captchaValue) return showToast("⚠️ 请填写完整邮箱和图形验证码");
+        btn.disabled = true; btn.innerText = "发送中...";
         
         try {
             const res = await fetch(`${MY_PROXY}/send_reg_email`, {
@@ -316,71 +360,34 @@
                 body: JSON.stringify({ imail: email, verify_token: currentVerifyToken, verify_code: captchaValue })
             });
             const result = await res.json();
-            
-            if(result.code === 1 && result.data) {
-                alert("邮件发送成功，请前往邮箱查收！");
-                document.getElementById('status').innerText = "邮件已发送";
-                tempCodeVali = result.data.code_vali;
-                tempEmailVali = result.data.email_vali;
-            } else {
-                alert("发送失败: " + (result.msg || JSON.stringify(result)));
-                refreshCaptcha(); 
-            }
-        } catch (e) {
-            alert("请求代理服务器失败");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "1. 获取邮件验证码";
-        }
+            if(result.code === 1 && result.data) { showToast("✉️ 邮件发送成功！"); document.getElementById('status').innerText = "邮件已发送"; tempCodeVali = result.data.code_vali; tempEmailVali = result.data.email_vali; } 
+            else { alert("发送失败: " + (result.msg || JSON.stringify(result))); refreshCaptcha(); }
+        } catch (e) { alert("请求代理服务器失败"); } 
+        finally { btn.disabled = false; btn.innerText = "1. 获取邮件验证码"; }
     }
 
     async function doRegister() {
-        const email = document.getElementById('email').value.trim();
-        const code = document.getElementById('emailCode').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const inviteCode = document.getElementById('inviteCode').value.trim();
+        const email = document.getElementById('email').value.trim(), code = document.getElementById('emailCode').value.trim();
+        const password = document.getElementById('password').value.trim(), inviteCode = document.getElementById('inviteCode').value.trim();
         const btn = document.getElementById('btnReg');
 
-        if(!email || !code || !password || !tempCodeVali) return alert("请确保已成功收到邮件验证码，并填完了所有必填项！");
+        if(!email || !code || !password || !tempCodeVali) return showToast("⚠️ 请确保信息填写完整");
+        btn.disabled = true; btn.innerText = "注册提交中...";
 
-        btn.disabled = true;
-        btn.innerText = "注册提交中...";
-
-        const payload = {
-            username: email,
-            password: password,
-            email: "",
-            imail: email,
-            invite: inviteCode,
-            code: code,
-            vali_email: tempEmailVali,
-            vali_code: tempCodeVali
-        };
+        const payload = { username: email, password: password, email: "", imail: email, invite: inviteCode, code: code, vali_email: tempEmailVali, vali_code: tempCodeVali };
 
         try {
             const res = await fetch(`${MY_PROXY}/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': currentSessionCookie },
-                body: JSON.stringify(payload)
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': currentSessionCookie }, body: JSON.stringify(payload)
             });
             const result = await res.json();
-            
             if(result.code === 1) {
                 alert("🎉 恭喜你，账号注册成功！\n账号信息已自动保存在「我的」记录中。");
                 document.getElementById('status').innerText = "账号注册完成";
-                
-                // 【核心逻辑】：注册成功后，调用账本函数记录下来
                 addHistoryRecord(email, password, inviteCode);
-                
-            } else {
-                alert("注册失败: " + (result.msg || JSON.stringify(result)));
-            }
-        } catch (e) {
-            alert("提交请求失败: " + e.message);
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "2. 提交注册";
-        }
+            } else { alert("注册失败: " + (result.msg || JSON.stringify(result))); }
+        } catch (e) { alert("提交请求失败: " + e.message); } 
+        finally { btn.disabled = false; btn.innerText = "2. 提交注册"; }
     }
 </script>
 
