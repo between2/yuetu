@@ -47,7 +47,7 @@
     </div>
     <button onclick="doRegister()" id="btnReg">2. 提交注册</button>
 
-    <div class="version-text">Version: v1.3.0 (会话保持版)</div>
+    <div class="version-text">Version: v1.4.0 (字段精准匹配版)</div>
 </div>
 
 <script>
@@ -57,8 +57,6 @@
     let tempCodeVali = "";
     let tempEmailVali = "";
     let isCaptchaLoaded = false;
-    
-    // 全局变量：用于存储官方下发的“身份证明” (Cookie)
     let currentSessionCookie = "";
 
     function generateToken() {
@@ -78,12 +76,8 @@
         
         try {
             const res = await fetch(targetUrl);
-            
-            // 【核心逻辑】：提取并保存 Worker 传过来的 Cookie
             const cookieVal = res.headers.get("X-Yt-Cookie");
-            if (cookieVal) {
-                currentSessionCookie = cookieVal;
-            }
+            if (cookieVal) currentSessionCookie = cookieVal;
 
             const base64Text = await res.text();
             if (base64Text.includes("iVBOR")) {
@@ -91,7 +85,7 @@
                 document.getElementById('status').innerText = "验证码加载成功";
                 isCaptchaLoaded = true;
             } else {
-                document.getElementById('status').innerText = "返回数据异常: " + base64Text.substring(0, 20) + "...";
+                document.getElementById('status').innerText = "返回数据异常";
             }
         } catch (e) {
             document.getElementById('status').innerText = "网络请求失败，请检查 Worker";
@@ -114,7 +108,6 @@
 
     async function sendEmail() {
         const email = document.getElementById('email').value.trim();
-        // 强制转为大写再提交，提高容错率
         const captchaValue = document.getElementById('captchaInput').value.trim().toUpperCase(); 
         const btn = document.getElementById('btnSend');
         
@@ -131,13 +124,13 @@
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    // 【核心逻辑】：发请求时，把“身份证明”还给官方
                     'X-Yt-Cookie': currentSessionCookie 
                 },
                 body: JSON.stringify({ 
                     imail: email, 
                     verify_token: currentVerifyToken,
-                    captcha: captchaValue  
+                    // 【核心修改点】：完美匹配官方接口的字段名
+                    verify_code: captchaValue  
                 })
             });
             const result = await res.json();
@@ -160,7 +153,6 @@
     }
 
     async function doRegister() {
-        // ... (最终注册同理，也带上 Cookie)
         const email = document.getElementById('email').value.trim();
         const code = document.getElementById('emailCode').value.trim();
         const password = document.getElementById('password').value.trim();
@@ -189,7 +181,7 @@
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'X-Yt-Cookie': currentSessionCookie // 同样带上 Cookie
+                    'X-Yt-Cookie': currentSessionCookie
                 },
                 body: JSON.stringify(payload)
             });
