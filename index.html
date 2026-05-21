@@ -13,12 +13,10 @@
         input:focus { border-color: #007bff; outline: none; }
         .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
         .captcha-row input { margin-bottom: 0; flex: 1; }
-        .captcha-row img { height: 42px; width: 100px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #e9ecef; object-fit: cover; }
-        
+        .captcha-row img { height: 42px; width: 120px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; margin-bottom: 15px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
         button.secondary { background: #007bff; }
         button:disabled { background: #ccc; cursor: not-allowed; }
-        
         hr { border: 0; border-top: 1px dashed #ddd; margin: 20px 0; }
         #status { font-size: 12px; color: #666; text-align: center; margin-top: 10px; }
         .version-text { font-size: 11px; color: #aaa; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
@@ -28,21 +26,16 @@
 
 <div class="box">
     <h3>注册账号</h3>
-    
     <div class="input-group">
         <input type="email" id="email" placeholder="输入邮箱 (例如: xxx@xxx.com)">
     </div>
-    
     <div class="captcha-row">
-        <input type="text" id="captchaInput" placeholder="输入右侧图形验证码">
+        <input type="text" id="captchaInput" placeholder="输入右侧图形验证码" style="text-transform: uppercase;">
         <img id="captchaImg" src="" onclick="refreshCaptcha()" title="点击刷新" alt="等待输入...">
     </div>
-
     <button class="secondary" onclick="sendEmail()" id="btnSend" disabled>请先输入正确的邮箱</button>
     <div id="status">填写邮箱后自动加载验证码</div>
-
     <hr>
-    
     <div class="input-group">
         <input type="text" id="emailCode" placeholder="输入邮箱收到的6位验证码">
     </div>
@@ -52,20 +45,21 @@
     <div class="input-group">
         <input type="text" id="inviteCode" placeholder="邀请码 (必填/选填)">
     </div>
-    
     <button onclick="doRegister()" id="btnReg">2. 提交注册</button>
 
-    <div class="version-text">Version: v1.2.0 (Base64解析版)</div>
+    <div class="version-text">Version: v1.3.0 (会话保持版)</div>
 </div>
 
 <script>
-    // 你的专属 Worker 代理节点
     const MY_PROXY = "https://broken-smoke-6508.zad13.workers.dev"; 
     
     let currentVerifyToken = "";
     let tempCodeVali = "";
     let tempEmailVali = "";
     let isCaptchaLoaded = false;
+    
+    // 全局变量：用于存储官方下发的“身份证明” (Cookie)
+    let currentSessionCookie = "";
 
     function generateToken() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -76,7 +70,6 @@
         return token;
     }
 
-    // 核心重写：处理奇葩的 Base64 图片返回格式
     async function refreshCaptcha() {
         document.getElementById('status').innerText = "正在拉取验证码数据...";
         currentVerifyToken = generateToken();
@@ -84,18 +77,20 @@
         const targetUrl = `${MY_PROXY}/getCode?verify_token=${currentVerifyToken}&t=${new Date().getTime()}`;
         
         try {
-            // 不再直接用 img.src，而是用 fetch 拿到那串文本
             const res = await fetch(targetUrl);
-            const base64Text = await res.text();
             
-            // iVBOR 是 PNG 图片 Base64 编码的固定开头
+            // 【核心逻辑】：提取并保存 Worker 传过来的 Cookie
+            const cookieVal = res.headers.get("X-Yt-Cookie");
+            if (cookieVal) {
+                currentSessionCookie = cookieVal;
+            }
+
+            const base64Text = await res.text();
             if (base64Text.includes("iVBOR")) {
-                // 手动拼装成浏览器能识别的图片格式
                 img.src = "data:image/png;base64," + base64Text;
                 document.getElementById('status').innerText = "验证码加载成功";
                 isCaptchaLoaded = true;
             } else {
-                // 如果返回的不是图片，把报错信息显示出来方便排查
                 document.getElementById('status').innerText = "返回数据异常: " + base64Text.substring(0, 20) + "...";
             }
         } catch (e) {
@@ -119,7 +114,8 @@
 
     async function sendEmail() {
         const email = document.getElementById('email').value.trim();
-        const captchaValue = document.getElementById('captchaInput').value.trim();
+        // 强制转为大写再提交，提高容错率
+        const captchaValue = document.getElementById('captchaInput').value.trim().toUpperCase(); 
         const btn = document.getElementById('btnSend');
         
         if(!email || !captchaValue) {
@@ -133,7 +129,11 @@
         try {
             const res = await fetch(`${MY_PROXY}/send_reg_email`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    // 【核心逻辑】：发请求时，把“身份证明”还给官方
+                    'X-Yt-Cookie': currentSessionCookie 
+                },
                 body: JSON.stringify({ 
                     imail: email, 
                     verify_token: currentVerifyToken,
@@ -160,6 +160,7 @@
     }
 
     async function doRegister() {
+        // ... (最终注册同理，也带上 Cookie)
         const email = document.getElementById('email').value.trim();
         const code = document.getElementById('emailCode').value.trim();
         const password = document.getElementById('password').value.trim();
@@ -186,7 +187,10 @@
         try {
             const res = await fetch(`${MY_PROXY}/register`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Yt-Cookie': currentSessionCookie // 同样带上 Cookie
+                },
                 body: JSON.stringify(payload)
             });
             const result = await res.json();
