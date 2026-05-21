@@ -56,17 +56,15 @@
 </div>
 
 <script>
-    const TARGET_BASE = "https://api.yt001.cc/index.php/api/user";
-    const CORS_PROXY = "https://corsproxy.io/?"; 
-    // 专门用于代理二进制图片流的节点，能有效绕过防盗链
-    const IMAGE_PROXY = "https://api.allorigins.win/raw?url="; 
+    // 已自动绑定你创建的 Cloudflare Worker 专属代理地址
+    const MY_PROXY = "https://broken-smoke-6508.zad13.workers.dev"; 
     
     let currentVerifyToken = "";
     let tempCodeVali = "";
     let tempEmailVali = "";
     let isCaptchaLoaded = false;
 
-    // 升级版：生成高仿真度的 32 位 Token
+    // 生成高度仿真的 32 位随机 Token
     function generateToken() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let token = '';
@@ -76,26 +74,25 @@
         return token;
     }
 
-    // 刷新验证码图片
+    // 刷新图形验证码
     function refreshCaptcha() {
-        document.getElementById('status').innerText = "正在通过代理获取图片...";
+        document.getElementById('status').innerText = "正在通过专属 Worker 加载图片...";
         currentVerifyToken = generateToken();
         const img = document.getElementById('captchaImg');
         
-        // 目标图片地址
-        const targetUrl = `${TARGET_BASE}/getCode?verify_token=${currentVerifyToken}&t=${new Date().getTime()}`;
-        
-        // 核心修复：使用 allorigins raw 代理强行抓取图片并返回二进制
-        img.src = IMAGE_PROXY + encodeURIComponent(targetUrl); 
+        // 让图片请求走你的私有 Worker 路由，由后端伪造 Referer 穿透防盗链
+        img.src = `${MY_PROXY}/getCode?verify_token=${currentVerifyToken}&t=${new Date().getTime()}`;
         
         img.onload = () => {
             document.getElementById('status').innerText = "验证码加载成功";
             isCaptchaLoaded = true;
         };
-        img.onerror = () => document.getElementById('status').innerText = "加载失败，官方防盗链极严";
+        img.onerror = () => {
+            document.getElementById('status').innerText = "加载失败，请确认 Worker 已部署成功";
+        };
     }
 
-    // 邮箱输入实时检测
+    // 监听邮箱输入框，只有格式正确才允许点击按钮并加载验证码
     document.getElementById('email').addEventListener('input', function() {
         const emailVal = this.value.trim();
         const btn = document.getElementById('btnSend');
@@ -110,7 +107,7 @@
         }
     });
 
-    // 发送邮件验证码
+    // 第一步：发送邮件验证码
     async function sendEmail() {
         const email = document.getElementById('email').value.trim();
         const captchaValue = document.getElementById('captchaInput').value.trim();
@@ -124,10 +121,9 @@
         btn.disabled = true;
         btn.innerText = "发送中...";
         
-        const targetUrl = `${TARGET_BASE}/send_reg_email`;
-        
         try {
-            const res = await fetch(CORS_PROXY + encodeURIComponent(targetUrl), {
+            // 通过你的专属 Worker 中转 POST 请求
+            const res = await fetch(`${MY_PROXY}/send_reg_email`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
@@ -141,21 +137,22 @@
             if(result.code === 1 && result.data) {
                 alert("邮件发送成功，请前往邮箱查收！");
                 document.getElementById('status').innerText = "邮件已发送";
+                // 核心步骤：截留并暂存服务器下发的安全凭证，用于下一步注册
                 tempCodeVali = result.data.code_vali;
                 tempEmailVali = result.data.email_vali;
             } else {
                 alert("发送失败: " + (result.msg || JSON.stringify(result)));
-                refreshCaptcha(); 
+                refreshCaptcha(); // 失败后自动刷新验证码
             }
         } catch (e) {
-            alert("请求代理失败，可能是网络问题或代理限制");
+            alert("请求代理服务器失败，请检查网络或 Worker 状态");
         } finally {
             btn.disabled = false;
             btn.innerText = "1. 获取邮件验证码";
         }
     }
 
-    // 提交最终注册
+    // 第二步：提交最终注册表单
     async function doRegister() {
         const email = document.getElementById('email').value.trim();
         const code = document.getElementById('emailCode').value.trim();
@@ -164,13 +161,14 @@
         const btn = document.getElementById('btnReg');
 
         if(!email || !code || !password || !tempCodeVali) {
-            alert("请确保已成功获取邮件验证码，并填完了所有信息！");
+            alert("请确保已成功收到邮件验证码，并填完了所有必填项！");
             return;
         }
 
         btn.disabled = true;
         btn.innerText = "注册提交中...";
 
+        // 组装最终载荷
         const payload = {
             imail: email,
             code: code,
@@ -180,10 +178,9 @@
             email_vali: tempEmailVali
         };
 
-        const targetUrl = `${TARGET_BASE}/register`;
-
         try {
-            const res = await fetch(CORS_PROXY + encodeURIComponent(targetUrl), {
+            // 通过你的专属 Worker 中转终极注册请求
+            const res = await fetch(`${MY_PROXY}/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -191,13 +188,13 @@
             const result = await res.json();
             
             if(result.code === 1) {
-                alert("恭喜，注册成功！");
+                alert("🎉 恭喜你，账号注册成功！");
                 document.getElementById('status').innerText = "账号注册完成";
             } else {
                 alert("注册失败: " + (result.msg || JSON.stringify(result)));
             }
         } catch (e) {
-            alert("提交报错: " + e.message);
+            alert("提交请求失败: " + e.message);
         } finally {
             btn.disabled = false;
             btn.innerText = "2. 提交注册";
