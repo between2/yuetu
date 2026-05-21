@@ -67,18 +67,21 @@
     }
 
     // 刷新验证码图片
-    function refreshCaptcha() {
+        function refreshCaptcha() {
         document.getElementById('status').innerText = "正在加载验证码...";
         currentVerifyToken = generateToken();
         const img = document.getElementById('captchaImg');
         
-        // 拼接请求链接，并通过代理穿透
+        // 拼接请求链接 (不再使用代理)
         const targetUrl = `${TARGET_BASE}/getCode?verify_token=${currentVerifyToken}&t=${new Date().getTime()}`;
-        img.src = CORS_PROXY + encodeURIComponent(targetUrl);
+        
+        // 【关键修改】：图片直接请求官方地址，绕过故障的代理
+        img.src = targetUrl; 
         
         img.onload = () => document.getElementById('status').innerText = "验证码加载成功";
         img.onerror = () => document.getElementById('status').innerText = "验证码加载失败，请点击图片重试";
     }
+
 
     // 页面加载完毕时自动获取一次验证码
     window.onload = refreshCaptcha;
