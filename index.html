@@ -14,7 +14,6 @@
         input:focus { border-color: #007bff; outline: none; }
         input:read-only { background-color: #f8f9fa; color: #666; }
         
-        /* 邮箱输入框带按钮的混合布局 */
         .input-with-btn { display: flex; gap: 8px; margin-bottom: 12px; }
         .input-with-btn input { flex: 1; margin-bottom: 0; }
         .icon-btn { width: 44px; padding: 0; display: flex; justify-content: center; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 18px; cursor: pointer; transition: all 0.2s; margin-bottom: 0; }
@@ -31,12 +30,11 @@
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; margin-bottom: 15px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
         button:active { transform: scale(0.98); }
         button.secondary { background: #007bff; }
-        button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        button:disabled { background: #ccc !important; cursor: not-allowed; transform: none; }
         
         hr { border: 0; border-top: 1px dashed #ddd; margin: 20px 0; }
-        #status { font-size: 12px; color: #666; text-align: center; margin-top: 10px; }
+        #status-home { font-size: 12px; color: #666; text-align: center; margin-top: 10px; }
         
-        /* 域名标签样式 */
         .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .tag { background: #e9ecef; color: #333; font-size: 12px; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; border: 1px solid #ddd; }
         .tag-close { cursor: pointer; color: #dc3545; font-weight: bold; font-size: 14px; transition: transform 0.2s; }
@@ -53,17 +51,27 @@
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
-        .tab-bar { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 220px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; border-radius: 40px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 100; padding: 6px; }
+        /* 导航栏加宽以适应三个按钮 */
+        .tab-bar { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 280px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; border-radius: 40px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 100; padding: 6px; }
         .tab-item { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; color: #666; cursor: pointer; transition: all 0.3s ease; border-radius: 30px; }
         .tab-item.active { background: #007bff; color: #fff; font-weight: bold; box-shadow: 0 4px 12px rgba(0,123,255,0.3); }
         
-        #toast { visibility: hidden; min-width: 180px; background-color: rgba(0, 0, 0, 0.8); color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px; position: fixed; z-index: 1000; left: 50%; transform: translateX(-50%); bottom: 90px; font-size: 14px; opacity: 0; transition: opacity 0.3s, bottom 0.3s; backdrop-filter: blur(5px); }
+        #toast { visibility: hidden; min-width: 180px; background-color: rgba(0, 0, 0, 0.8); color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px; position: fixed; z-index: 1000; left: 50%; transform: translateX(-50%); bottom: 90px; font-size: 14px; opacity: 0; transition: opacity 0.3s, bottom 0.3s; backdrop-filter: blur(5px); pointer-events: none; }
         #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
 
         .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; word-break: break-all; }
         .history-card strong { color: #333; }
-        .history-time { font-size: 11px; color: #999; margin-bottom: 5px; }
-        .empty-tip { text-align: center; color: #999; font-size: 13px; padding: 20px 0; }
+        
+        /* 批量操作卡片专属极简样式 */
+        .batch-card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 12px; background: #fafafa; position: relative; transition: all 0.3s; }
+        .batch-card.success { border-color: #28a745; background: #e8f5e9; }
+        .batch-card .close-btn { position: absolute; top: -6px; right: -6px; background: #dc3545; color: white; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 20px; font-size: 14px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .batch-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+        .batch-row input { padding: 8px; font-size: 13px; margin: 0; }
+        .batch-row button { padding: 8px; font-size: 13px; margin: 0; width: auto; white-space: nowrap; flex: none; }
+        .batch-row img { height: 34px; width: 90px; border-radius: 4px; object-fit: contain; background: #fff; border: 1px solid #ddd; flex: none; }
+        .batch-status { font-size: 11px; color: #666; margin-top: 4px; }
+
         .version-text { font-size: 11px; color: #aaa; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
     </style>
 </head>
@@ -73,38 +81,55 @@
 
 <div id="page-home" class="page active">
     <div class="box">
-        <h3>注册账号</h3>
-        
+        <h3>单个注册</h3>
         <div class="input-with-btn">
-            <input type="email" id="email" placeholder="手动输入邮箱 或 点击右侧随机">
-            <div class="icon-btn" onclick="generateRandomEmail()" title="随机生成邮箱">🎲</div>
+            <input type="email" id="email-home" placeholder="手动输入邮箱 或 点击右侧随机" oninput="checkEmailInput('home')">
+            <div class="icon-btn" onclick="generateRandomEmail('home')" title="随机生成邮箱">🎲</div>
         </div>
-        
         <div class="captcha-row">
-            <input type="text" id="captchaInput" placeholder="输入图形验证码" style="text-transform: uppercase;">
-            <img id="captchaImg" src="" onclick="refreshCaptcha()" title="点击刷新" alt="等待输入...">
+            <input type="text" id="captchaInput-home" placeholder="输入图形验证码" style="text-transform: uppercase;">
+            <img id="captchaImg-home" src="" onclick="refreshCaptcha('home')" title="点击刷新" alt="等待输入...">
         </div>
-        <button class="secondary" onclick="sendEmail()" id="btnSend" disabled>请先输入正确的邮箱</button>
-        <div id="status">填写邮箱后自动加载验证码</div>
+        <button class="secondary" onclick="sendEmail('home')" id="btnSend-home" disabled>请先输入正确的邮箱</button>
+        <div id="status-home">填写邮箱后自动加载验证码</div>
         <hr>
         <div class="input-group">
-            <input type="text" id="emailCode" placeholder="输入邮箱收到的6位验证码">
+            <input type="text" id="emailCode-home" placeholder="输入邮箱收到的6位验证码">
         </div>
         <div class="input-with-switch">
-            <input type="password" id="password" placeholder="设置密码">
+            <input type="password" id="password-home" placeholder="设置密码">
             <label class="switch" title="启用预设密码"><input type="checkbox" id="togglePwd" onchange="applyPresets()"><span class="slider"></span></label>
         </div>
         <div class="input-with-switch">
-            <input type="text" id="inviteCode" placeholder="邀请码 (必填/选填)">
+            <input type="text" id="inviteCode-home" placeholder="邀请码 (必填/选填)">
             <label class="switch" title="启用预设邀请码"><input type="checkbox" id="toggleInvite" onchange="applyPresets()"><span class="slider"></span></label>
         </div>
-        <button onclick="doRegister()" id="btnReg">2. 提交注册</button>
-        <div class="version-text">Version: v1.8.0 (域名矩阵自动化版)</div>
+        <button onclick="doRegister('home')" id="btnReg-home">2. 提交注册</button>
+        <div class="version-text">Version: v1.9.0 (批量矩阵进化版)</div>
+    </div>
+</div>
+
+<div id="page-batch" class="page">
+    <div class="box" style="padding: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3 style="margin: 0;">流水线工厂</h3>
+            <button class="secondary" style="width: auto; padding: 5px 12px; margin: 0; font-size: 13px;" onclick="addBatchTask()">+ 添加账号</button>
+        </div>
+        <p style="font-size: 11px; color: #888; margin-top: 0; margin-bottom: 15px; line-height: 1.4;">
+            注：此模式高度精简，密码和邀请码将<strong style="color:#007bff">强制读取「我的设置」中的预设参数</strong>，请确保已提前设置。
+        </p>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 15px; background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
+            <button class="secondary" style="margin:0; padding: 8px 0; font-size: 13px; flex: 1; background: #6c757d;" onclick="batchGenerateEmails()">🎲 全随机</button>
+            <button class="secondary" style="margin:0; padding: 8px 0; font-size: 13px; flex: 1;" onclick="batchSendEmails()">✉️ 全发信</button>
+            <button class="secondary" style="margin:0; padding: 8px 0; font-size: 13px; flex: 1; background: #28a745;" onclick="batchRegister()">🚀 全注册</button>
+        </div>
+
+        <div id="batchContainer"></div>
     </div>
 </div>
 
 <div id="page-my" class="page">
-
     <div class="box">
         <h3>邮箱域名预设</h3>
         <p style="font-size: 12px; color: #666; margin-top: 0;">添加你的域名后缀，首页掷骰子时将从中随机抽取</p>
@@ -116,8 +141,7 @@
     </div>
 
     <div class="box">
-        <h3>通用配置预设</h3>
-        <p style="font-size: 12px; color: #666; margin-top: 0;">设置后可在首页打开开关一键填充</p>
+        <h3>通用配置预设 <span style="color:#dc3545;font-size:12px;">(批量模式必填)</span></h3>
         <div class="input-group">
             <input type="text" id="presetPwd" placeholder="在此输入预设统一密码">
         </div>
@@ -131,20 +155,11 @@
         <h3>WebDAV 云端同步</h3>
         <div class="input-with-switch">
             <label class="text-label">注册成功后自动上传</label>
-            <label class="switch">
-                <input type="checkbox" id="toggleWebDAV" onchange="saveSettings(true)">
-                <span class="slider"></span>
-            </label>
+            <label class="switch"><input type="checkbox" id="toggleWebDAV" onchange="saveSettings(true)"><span class="slider"></span></label>
         </div>
-        <div class="input-group">
-            <input type="text" id="webdavUrl" placeholder="文件完整地址 (如 https://.../yt.csv)">
-        </div>
-        <div class="input-group">
-            <input type="text" id="webdavUser" placeholder="WebDAV 用户名">
-        </div>
-        <div class="input-group">
-            <input type="password" id="webdavPwd" placeholder="WebDAV 密码">
-        </div>
+        <div class="input-group"><input type="text" id="webdavUrl" placeholder="文件完整地址 (如 https://.../yt.csv)"></div>
+        <div class="input-group"><input type="text" id="webdavUser" placeholder="WebDAV 用户名"></div>
+        <div class="input-group"><input type="password" id="webdavPwd" placeholder="WebDAV 密码"></div>
         <button class="secondary" style="background: #28a745; padding: 10px; margin-bottom: 15px;" onclick="saveSettings(true)">💾 保存 WebDAV 配置</button>
         
         <div style="display: flex; gap: 10px;">
@@ -161,19 +176,25 @@
 
 <div class="tab-bar">
     <div class="tab-item active" onclick="switchTab('home', this)">首页</div>
+    <div class="tab-item" onclick="switchTab('batch', this)">批量</div>
     <div class="tab-item" onclick="switchTab('my', this)">我的设置</div>
 </div>
 
 <script>
     const MY_PROXY = "https://broken-smoke-6508.zad13.workers.dev"; 
-    let currentVerifyToken = "", tempCodeVali = "", tempEmailVali = "", isCaptchaLoaded = false, currentSessionCookie = "";
     
-    // 全局域名池变量
+    // 核心重构：从单例变量变为多任务并发字典
+    let taskCtx = { 'home': { token: '', cookie: '', codeVali: '', emailVali: '', loaded: false } };
+    let activeTasks = ['home'];
+    let batchCounter = 0;
+    
     let presetDomains = [];
 
     window.onload = function() {
         loadSettings();
         renderHistory();
+        // 初始给批量页面加一张空卡片
+        addBatchTask();
     };
     
     let toastTimeout;
@@ -184,29 +205,25 @@
         toastTimeout = setTimeout(() => { toast.classList.remove("show"); }, 2000);
     }
 
+    // ================= 配置存取与域名管理 =================
     function loadSettings() {
         const settings = JSON.parse(localStorage.getItem('ytSettings') || '{}');
-        
-        // 恢复域名池
-        presetDomains = settings.domains || [];
-        renderDomains();
+        presetDomains = settings.domains || []; renderDomains();
 
         document.getElementById('presetPwd').value = settings.presetPwd || '';
         document.getElementById('presetInvite').value = settings.presetInvite || '';
         document.getElementById('togglePwd').checked = settings.usePresetPwd || false;
         document.getElementById('toggleInvite').checked = settings.usePresetInvite || false;
-        
         document.getElementById('webdavUrl').value = settings.webdavUrl || '';
         document.getElementById('webdavUser').value = settings.webdavUser || '';
         document.getElementById('webdavPwd').value = settings.webdavPwd || '';
         document.getElementById('toggleWebDAV').checked = settings.autoSyncWebDAV || false;
-        
         applyPresets();
     }
 
     function saveSettings(showFeedback = false) {
         const settings = {
-            domains: presetDomains, // 保存域名池
+            domains: presetDomains,
             presetPwd: document.getElementById('presetPwd').value.trim(),
             presetInvite: document.getElementById('presetInvite').value.trim(),
             usePresetPwd: document.getElementById('togglePwd').checked,
@@ -220,78 +237,28 @@
         if (showFeedback) showToast("✅ 配置已保存生效");
     }
 
-    // ================= 新增：域名池管理功能 =================
     function addDomain() {
         let val = document.getElementById('newDomain').value.trim();
         if (!val) return;
-        
-        // 自动补全 @ 符号
         if (!val.startsWith('@')) val = '@' + val;
-        
-        if (presetDomains.includes(val)) {
-            showToast("⚠️ 该域名后缀已存在");
-            return;
-        }
-        
-        presetDomains.push(val);
-        saveSettings(false);
-        renderDomains();
-        document.getElementById('newDomain').value = '';
-        showToast("✅ 域名添加成功");
+        if (presetDomains.includes(val)) return showToast("⚠️ 该域名后缀已存在");
+        presetDomains.push(val); saveSettings(false); renderDomains();
+        document.getElementById('newDomain').value = ''; showToast("✅ 域名添加成功");
     }
 
     function removeDomain(index) {
-        presetDomains.splice(index, 1);
-        saveSettings(false);
-        renderDomains();
-        showToast("🗑️ 域名已移除");
+        presetDomains.splice(index, 1); saveSettings(false); renderDomains(); showToast("🗑️ 域名已移除");
     }
 
     function renderDomains() {
         const container = document.getElementById('domainList');
-        if (presetDomains.length === 0) {
-            container.innerHTML = '<span style="color:#999;font-size:12px;padding:5px;">暂无预设域名，请在上方添加</span>';
-            return;
-        }
-        container.innerHTML = presetDomains.map((domain, index) => 
-            `<span class="tag">${domain}<span class="tag-close" onclick="removeDomain(${index})">×</span></span>`
-        ).join('');
+        if (presetDomains.length === 0) return container.innerHTML = '<span style="color:#999;font-size:12px;padding:5px;">暂无预设域名，请在上方添加</span>';
+        container.innerHTML = presetDomains.map((domain, idx) => `<span class="tag">${domain}<span class="tag-close" onclick="removeDomain(${idx})">×</span></span>`).join('');
     }
-
-    // ================= 新增：随机生成邮箱 =================
-    function generateRandomEmail() {
-        // 1. 生成随机前缀 (6-10位字母+数字)
-        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        let prefix = '';
-        const len = Math.floor(Math.random() * 5) + 6; // 6到10的随机长度
-        for (let i = 0; i < len; i++) {
-            prefix += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-
-        // 2. 从预设域名池中随机抽取后缀，如果没有则使用默认占位
-        let suffix = "@gmail.com"; 
-        if (presetDomains && presetDomains.length > 0) {
-            const randomIdx = Math.floor(Math.random() * presetDomains.length);
-            suffix = presetDomains[randomIdx];
-        } else {
-            showToast("⚠️ 未配置域名，使用默认后缀");
-        }
-
-        // 3. 填入输入框
-        const newEmail = prefix + suffix;
-        const emailInput = document.getElementById('email');
-        emailInput.value = newEmail;
-        
-        // 4. [核心联动] 模拟手动输入，触发底层的图形验证码加载逻辑
-        emailInput.dispatchEvent(new Event('input'));
-        showToast("🎲 随机邮箱已生成");
-    }
-
-    // =======================================================
 
     function applyPresets() {
         saveSettings(false);
-        const pwdInput = document.getElementById('password'), inviteInput = document.getElementById('inviteCode');
+        const pwdInput = document.getElementById('password-home'), inviteInput = document.getElementById('inviteCode-home');
         const presetPwd = document.getElementById('presetPwd').value.trim(), presetInvite = document.getElementById('presetInvite').value.trim();
         const usePwd = document.getElementById('togglePwd').checked, useInvite = document.getElementById('toggleInvite').checked;
 
@@ -302,13 +269,225 @@
         else { if (useInvite && !presetInvite) { showToast("⚠️ 请先设置预设邀请码"); document.getElementById('toggleInvite').checked = false; } inviteInput.value = ""; inviteInput.readOnly = false; }
     }
 
+    function switchTab(tabName, el) {
+        document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+        el.classList.add('active');
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(`page-${tabName}`).classList.add('active');
+        if(tabName === 'home') applyPresets();
+    }
+
+    // ================= 新增：批量任务管理器 =================
+    function addBatchTask() {
+        batchCounter++;
+        const id = `batch-${batchCounter}`;
+        activeTasks.push(id);
+        taskCtx[id] = { token: '', cookie: '', codeVali: '', emailVali: '', loaded: false };
+
+        const html = `
+            <div class="batch-card" id="card-${id}">
+                <div class="close-btn" onclick="removeBatchTask('${id}')">×</div>
+                <div class="batch-row">
+                    <input type="email" id="email-${id}" placeholder="邮箱地址" oninput="checkEmailInput('${id}')">
+                    <div class="icon-btn" style="width: 34px; height: 34px; font-size: 14px;" onclick="generateRandomEmail('${id}')">🎲</div>
+                </div>
+                <div class="batch-row">
+                    <input type="text" id="captchaInput-${id}" placeholder="验证码" style="text-transform: uppercase; width: 70px; flex: none;">
+                    <img id="captchaImg-${id}" src="" onclick="refreshCaptcha('${id}')" title="点击刷新" alt="点击拉取图片...">
+                    <button class="secondary" id="btnSend-${id}" onclick="sendEmail('${id}')" disabled>发信</button>
+                </div>
+                <div class="batch-row">
+                    <input type="text" id="emailCode-${id}" placeholder="输入邮箱6位验证码">
+                    <button class="secondary" style="background:#28a745;" id="btnReg-${id}" onclick="doRegister('${id}')">注册</button>
+                </div>
+                <div class="batch-status" id="status-${id}">等待操作...</div>
+            </div>
+        `;
+        document.getElementById('batchContainer').insertAdjacentHTML('beforeend', html);
+    }
+
+    function removeBatchTask(id) {
+        document.getElementById(`card-${id}`).remove();
+        activeTasks = activeTasks.filter(t => t !== id);
+        delete taskCtx[id];
+    }
+
+    // ================= 批量宏指令 =================
+    function batchGenerateEmails() {
+        const tasks = activeTasks.filter(id => id !== 'home');
+        if (tasks.length === 0) return showToast("⚠️ 请先添加账号任务");
+        tasks.forEach(id => generateRandomEmail(id));
+        showToast("🎲 已批量填充随机邮箱");
+    }
+
+    async function batchSendEmails() {
+        const tasks = activeTasks.filter(id => id !== 'home');
+        if (tasks.length === 0) return showToast("⚠️ 请先添加账号任务");
+        let count = 0;
+        for (let id of tasks) {
+            const em = document.getElementById(`email-${id}`).value.trim();
+            const cp = document.getElementById(`captchaInput-${id}`).value.trim();
+            // 只要邮箱和图形码填了，就帮他发
+            if (em && cp) { await sendEmail(id, true); count++; }
+        }
+        showToast(`✉️ 批量发信执行完毕 (触发 ${count} 个)`);
+    }
+
+    async function batchRegister() {
+        const tasks = activeTasks.filter(id => id !== 'home');
+        if (tasks.length === 0) return showToast("⚠️ 请先添加账号任务");
+        let count = 0;
+        for (let id of tasks) {
+            const em = document.getElementById(`email-${id}`).value.trim();
+            const cd = document.getElementById(`emailCode-${id}`).value.trim();
+            if (em && cd && taskCtx[id].codeVali) { await doRegister(id, true); count++; }
+        }
+        showToast(`🚀 批量注册执行完毕 (触发 ${count} 个)`);
+    }
+
+    // ================= 核心网络请求 (完美兼容多开) =================
+    function generateTokenForApi() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let token = ''; for (let i = 0; i < 32; i++) token += chars.charAt(Math.floor(Math.random() * chars.length)); return token;
+    }
+
+    function generateRandomEmail(id = 'home') {
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        let prefix = ''; const len = Math.floor(Math.random() * 5) + 6;
+        for (let i = 0; i < len; i++) prefix += chars.charAt(Math.floor(Math.random() * chars.length));
+        let suffix = "@gmail.com"; 
+        if (presetDomains && presetDomains.length > 0) { suffix = presetDomains[Math.floor(Math.random() * presetDomains.length)]; } 
+        else { if (id === 'home') showToast("⚠️ 未配置域名，使用默认后缀"); }
+        
+        const emailInput = document.getElementById(`email-${id}`);
+        emailInput.value = prefix + suffix;
+        // 手动触发监听事件，激活下面的按钮和拉取图片
+        checkEmailInput(id);
+        if (id === 'home') showToast("🎲 随机邮箱已生成");
+    }
+
+    async function refreshCaptcha(id) {
+        document.getElementById(`status-${id}`).innerText = "拉取图片中...";
+        taskCtx[id].token = generateTokenForApi();
+        const img = document.getElementById(`captchaImg-${id}`);
+        
+        try {
+            const res = await fetch(`${MY_PROXY}/getCode?verify_token=${taskCtx[id].token}&t=${new Date().getTime()}`);
+            const cookieVal = res.headers.get("X-Yt-Cookie");
+            if (cookieVal) taskCtx[id].cookie = cookieVal;
+            const base64Text = await res.text();
+            if (base64Text.includes("iVBOR")) { 
+                img.src = "data:image/png;base64," + base64Text; 
+                document.getElementById(`status-${id}`).innerText = "图片已加载"; 
+                taskCtx[id].loaded = true; 
+            } else { document.getElementById(`status-${id}`).innerText = "返回数据异常"; }
+        } catch (e) { document.getElementById(`status-${id}`).innerText = "网络异常"; }
+    }
+
+    function checkEmailInput(id) {
+        const emailVal = document.getElementById(`email-${id}`).value.trim(); 
+        const btn = document.getElementById(`btnSend-${id}`);
+        if (emailVal.includes('@') && emailVal.includes('.')) { 
+            btn.disabled = false; 
+            if (!taskCtx[id].loaded) refreshCaptcha(id); 
+        } else { btn.disabled = true; }
+    }
+
+    async function sendEmail(id, isBatchSilenced = false) {
+        const email = document.getElementById(`email-${id}`).value.trim();
+        const captchaValue = document.getElementById(`captchaInput-${id}`).value.trim().toUpperCase(); 
+        const btn = document.getElementById(`btnSend-${id}`);
+        const statusEl = document.getElementById(`status-${id}`);
+        
+        if(!email || !captchaValue) {
+            if(!isBatchSilenced) showToast("⚠️ 请填写完整邮箱和图形验证码");
+            return;
+        }
+        btn.disabled = true; btn.innerText = "发送中"; statusEl.innerText = "发信中...";
+        
+        try {
+            const res = await fetch(`${MY_PROXY}/send_reg_email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': taskCtx[id].cookie || '' },
+                body: JSON.stringify({ imail: email, verify_token: taskCtx[id].token, verify_code: captchaValue })
+            });
+            const result = await res.json();
+            if(result.code === 1 && result.data) { 
+                if(!isBatchSilenced) showToast("✉️ 邮件发送成功！"); 
+                statusEl.innerText = "✅ 邮件已发送"; statusEl.style.color = "#28a745";
+                taskCtx[id].codeVali = result.data.code_vali; taskCtx[id].emailVali = result.data.email_vali; 
+            } else { 
+                if(!isBatchSilenced) alert("发送失败: " + (result.msg || "接口异常")); 
+                statusEl.innerText = "❌ " + (result.msg || "发送失败"); statusEl.style.color = "#dc3545";
+                refreshCaptcha(id); 
+            }
+        } catch (e) { statusEl.innerText = "网络异常"; } 
+        finally { btn.disabled = false; btn.innerText = id === 'home' ? "1. 获取邮件验证码" : "发信"; }
+    }
+
+    async function doRegister(id, isBatchSilenced = false) {
+        const email = document.getElementById(`email-${id}`).value.trim();
+        const code = document.getElementById(`emailCode-${id}`).value.trim();
+        const btn = document.getElementById(`btnReg-${id}`);
+        const statusEl = document.getElementById(`status-${id}`);
+
+        let password, inviteCode;
+        if (id === 'home') {
+            password = document.getElementById('password-home').value.trim();
+            inviteCode = document.getElementById('inviteCode-home').value.trim();
+        } else {
+            password = document.getElementById('presetPwd').value.trim();
+            inviteCode = document.getElementById('presetInvite').value.trim();
+            if(!password) {
+                if(!isBatchSilenced) showToast("⚠️ 批量流水线强制要求先设置通用预设密码");
+                statusEl.innerText = "缺少预设密码"; statusEl.style.color = "#dc3545"; return;
+            }
+        }
+
+        if(!email || !code || !password || !taskCtx[id].codeVali) {
+            if(!isBatchSilenced) showToast("⚠️ 请确保信息填写完整，且已发信获取凭证"); return;
+        }
+
+        btn.disabled = true; btn.innerText = "注册中"; statusEl.innerText = "注册提交中...";
+
+        const payload = { username: email, password: password, email: "", imail: email, invite: inviteCode, code: code, vali_email: taskCtx[id].emailVali, vali_code: taskCtx[id].codeVali };
+
+        try {
+            const res = await fetch(`${MY_PROXY}/register`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': taskCtx[id].cookie || '' }, body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if(result.code === 1) {
+                if(!isBatchSilenced) {
+                    alert("🎉 恭喜，账号注册成功！\n账号信息已自动存入账本。"); 
+                    if(id === 'home') showToast("✅ 归档成功");
+                }
+                statusEl.innerText = "✅ 注册成功归档"; statusEl.style.color = "#28a745";
+                btn.style.background = "#28a745"; btn.innerText = "已完成";
+                addHistoryRecord(email, password, inviteCode);
+                
+                // 批量卡片注册成功后变绿并禁用输入，防止误触
+                if (id !== 'home') {
+                    const card = document.getElementById(`card-${id}`);
+                    card.classList.add('success');
+                    card.querySelectorAll('input').forEach(i => i.disabled = true);
+                    card.querySelectorAll('button').forEach(b => b.disabled = true);
+                }
+            } else { 
+                if(!isBatchSilenced) alert("注册失败: " + (result.msg || "接口驳回")); 
+                statusEl.innerText = "❌ " + (result.msg || "注册失败"); statusEl.style.color = "#dc3545";
+            }
+        } catch (e) { statusEl.innerText = "网络请求失败"; } 
+        finally { if (statusEl.innerText !== "✅ 注册成功归档") { btn.disabled = false; btn.innerText = id === 'home' ? "2. 提交注册" : "注册"; } }
+    }
+
+    // ================= 账本与云端 =================
     function addHistoryRecord(email, password, inviteCode) {
         let history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
         const now = new Date();
         const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
         history.unshift({ email: email, password: password, invite: inviteCode || '无', time: timeString });
-        localStorage.setItem('ytHistory', JSON.stringify(history));
-        renderHistory();
+        localStorage.setItem('ytHistory', JSON.stringify(history)); renderHistory();
         if (document.getElementById('toggleWebDAV').checked) syncToWebDAV(false);
     }
 
@@ -316,20 +495,9 @@
         const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
         const container = document.getElementById('historyContainer');
         if (history.length === 0) return container.innerHTML = '<div class="empty-tip">暂无注册成功的账号</div>';
-        
         let html = '';
-        history.forEach(item => {
-            html += `<div class="history-card"><div class="history-time">${item.time}</div><div>账号：<strong>${item.email}</strong></div><div>密码：<strong>${item.password}</strong></div><div>邀请码：${item.invite}</div></div>`;
-        });
+        history.forEach(item => { html += `<div class="history-card"><div class="history-time">${item.time}</div><div>账号：<strong>${item.email}</strong></div><div>密码：<strong>${item.password}</strong></div><div>邀请码：${item.invite}</div></div>`; });
         container.innerHTML = html;
-    }
-
-    function switchTab(tabName, el) {
-        document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
-        el.classList.add('active');
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.getElementById(`page-${tabName}`).classList.add('active');
-        if(tabName === 'home') applyPresets();
     }
 
     function getCsvContent() {
@@ -343,108 +511,23 @@
         const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
         if (history.length === 0) return showToast("暂无记录可导出");
         const blob = new Blob([getCsvContent()], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", `YT_Accounts_${new Date().getTime()}.csv`);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showToast("✅ 已触发下载");
+        const link = document.createElement("a"); const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url); link.setAttribute("download", `YT_Accounts_${new Date().getTime()}.csv`);
+        link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast("✅ 已触发下载");
     }
 
     async function syncToWebDAV(isManual) {
         const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
         if (history.length === 0 && isManual) return showToast("本地暂无记录，无需同步");
-        const url = document.getElementById('webdavUrl').value.trim();
-        const user = document.getElementById('webdavUser').value.trim();
-        const pwd = document.getElementById('webdavPwd').value.trim();
+        const url = document.getElementById('webdavUrl').value.trim(), user = document.getElementById('webdavUser').value.trim(), pwd = document.getElementById('webdavPwd').value.trim();
         if (!url || !user || !pwd) { if (isManual) showToast("⚠️ 请填写完整的 WebDAV 配置"); return; }
         if (isManual) showToast("正在同步到云端...");
-        
         try {
             const base64Auth = btoa(unescape(encodeURIComponent(user + ':' + pwd)));
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: { 'Authorization': 'Basic ' + base64Auth, 'Content-Type': 'text/csv; charset=utf-8' },
-                body: getCsvContent()
-            });
+            const response = await fetch(url, { method: 'PUT', headers: { 'Authorization': 'Basic ' + base64Auth, 'Content-Type': 'text/csv; charset=utf-8' }, body: getCsvContent() });
             if (response.ok || response.status === 201 || response.status === 204) { if (isManual) showToast("✅ 云端同步成功！"); } 
-            else { if (isManual) alert(`❌ 同步失败 (状态码 ${response.status})\n可能是 WebDAV 服务器拦截了跨域(CORS)。`); }
-        } catch (error) {
-            if (isManual) alert(`❌ 网络请求失败\n请检查链接是否正确，或服务器是否允许前端跨域。`);
-        }
-    }
-
-    function generateTokenForApi() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let token = ''; for (let i = 0; i < 32; i++) token += chars.charAt(Math.floor(Math.random() * chars.length)); return token;
-    }
-
-    async function refreshCaptcha() {
-        document.getElementById('status').innerText = "正在拉取验证码数据...";
-        currentVerifyToken = generateTokenForApi();
-        const img = document.getElementById('captchaImg');
-        
-        try {
-            const res = await fetch(`${MY_PROXY}/getCode?verify_token=${currentVerifyToken}&t=${new Date().getTime()}`);
-            const cookieVal = res.headers.get("X-Yt-Cookie");
-            if (cookieVal) currentSessionCookie = cookieVal;
-            const base64Text = await res.text();
-            if (base64Text.includes("iVBOR")) { img.src = "data:image/png;base64," + base64Text; document.getElementById('status').innerText = "验证码加载成功"; isCaptchaLoaded = true; } 
-            else { document.getElementById('status').innerText = "返回数据异常"; }
-        } catch (e) { document.getElementById('status').innerText = "网络请求失败，请检查 Worker"; }
-    }
-
-    document.getElementById('email').addEventListener('input', function() {
-        const emailVal = this.value.trim(); const btn = document.getElementById('btnSend');
-        if (emailVal.includes('@') && emailVal.includes('.')) { btn.disabled = false; btn.innerText = "1. 获取邮件验证码"; if (!isCaptchaLoaded) refreshCaptcha(); } 
-        else { btn.disabled = true; btn.innerText = "请先输入正确的邮箱"; }
-    });
-
-    async function sendEmail() {
-        const email = document.getElementById('email').value.trim();
-        const captchaValue = document.getElementById('captchaInput').value.trim().toUpperCase(); 
-        const btn = document.getElementById('btnSend');
-        if(!email || !captchaValue) return showToast("⚠️ 请填写完整邮箱和图形验证码");
-        btn.disabled = true; btn.innerText = "发送中...";
-        
-        try {
-            const res = await fetch(`${MY_PROXY}/send_reg_email`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': currentSessionCookie },
-                body: JSON.stringify({ imail: email, verify_token: currentVerifyToken, verify_code: captchaValue })
-            });
-            const result = await res.json();
-            if(result.code === 1 && result.data) { showToast("✉️ 邮件发送成功！"); document.getElementById('status').innerText = "邮件已发送"; tempCodeVali = result.data.code_vali; tempEmailVali = result.data.email_vali; } 
-            else { alert("发送失败: " + (result.msg || JSON.stringify(result))); refreshCaptcha(); }
-        } catch (e) { alert("请求代理服务器失败"); } 
-        finally { btn.disabled = false; btn.innerText = "1. 获取邮件验证码"; }
-    }
-
-    async function doRegister() {
-        const email = document.getElementById('email').value.trim(), code = document.getElementById('emailCode').value.trim();
-        const password = document.getElementById('password').value.trim(), inviteCode = document.getElementById('inviteCode').value.trim();
-        const btn = document.getElementById('btnReg');
-
-        if(!email || !code || !password || !tempCodeVali) return showToast("⚠️ 请确保信息填写完整");
-        btn.disabled = true; btn.innerText = "注册提交中...";
-
-        const payload = { username: email, password: password, email: "", imail: email, invite: inviteCode, code: code, vali_email: tempEmailVali, vali_code: tempCodeVali };
-
-        try {
-            const res = await fetch(`${MY_PROXY}/register`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': currentSessionCookie }, body: JSON.stringify(payload)
-            });
-            const result = await res.json();
-            if(result.code === 1) {
-                alert("🎉 恭喜你，账号注册成功！\n账号信息已自动保存在「我的设置」中。");
-                document.getElementById('status').innerText = "账号注册完成";
-                addHistoryRecord(email, password, inviteCode);
-            } else { alert("注册失败: " + (result.msg || JSON.stringify(result))); }
-        } catch (e) { alert("提交请求失败: " + e.message); } 
-        finally { btn.disabled = false; btn.innerText = "2. 提交注册"; }
+            else { if (isManual) alert(`❌ 同步失败 (状态码 ${response.status})`); }
+        } catch (error) { if (isManual) alert(`❌ 网络请求失败，请检查链接`); }
     }
 </script>
 
