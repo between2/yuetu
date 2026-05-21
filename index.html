@@ -6,31 +6,32 @@
     <title>专属注册工具</title>
     <style>
         body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 90px; }
-        .box { background: #fff; padding: 20px; border-radius: 12px; margin: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h3 { text-align: center; color: #333; margin-top: 0; margin-bottom: 15px; font-size: 16px; }
+        .box { background: #fff; padding: 18px; border-radius: 12px; margin: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h3 { text-align: center; color: #333; margin-top: 0; font-size: 16px; margin-bottom: 12px; }
         
-        .input-group { margin-bottom: 12px; }
-        input { width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
+        .input-group { margin-bottom: 10px; }
+        /* 输入框稍微减小高度 */
+        input { width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; transition: border-color 0.3s; }
         input:focus { border-color: #007bff; outline: none; }
         input:read-only { background-color: #f8f9fa; color: #666; }
         
-        .input-with-btn { display: flex; gap: 8px; margin-bottom: 12px; }
+        .input-with-btn { display: flex; gap: 8px; margin-bottom: 10px; }
         .input-with-btn input { flex: 1; margin-bottom: 0; }
-        
-        /* 精细化小图标按钮 */
-        .icon-btn { width: 40px; height: 40px; padding: 0; display: flex; justify-content: center; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-bottom: 0; box-sizing: border-box; }
+        /* 骰子按钮缩小 */
+        .icon-btn { width: 38px; height: 38px; padding: 0; display: flex; justify-content: center; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-bottom: 0; box-sizing: border-box; }
         .icon-btn:active { background: #e2e6ea; transform: scale(0.95); }
         
-        .input-with-switch { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .input-with-switch { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .input-with-switch input { flex: 1; margin-bottom: 0; }
-        .input-with-switch label.text-label { font-size: 13px; color: #555; flex: 1; margin-bottom: 0; }
+        .input-with-switch label.text-label { font-size: 13px; color: #333; flex: 1; margin-bottom: 0; }
         
-        .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+        .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
         .captcha-row input { margin-bottom: 0; flex: 1; }
-        .captcha-row img { height: 40px; width: 110px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
+        /* 验证码图片高度稍微压缩 */
+        .captcha-row img { height: 38px; width: 110px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
         
-        /* 恢复 2.1 饱满紧凑的按钮视觉 */
-        button { width: 100%; padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 14px; margin-bottom: 12px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        /* 核心按钮瘦身：字号减小，高度变薄 */
+        button { width: 100%; padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 14px; margin-bottom: 12px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
         button:active { transform: scale(0.98); }
         button.secondary { background: #007bff; }
         button:disabled { background: #ccc !important; cursor: not-allowed; transform: none; }
@@ -38,48 +39,48 @@
         hr { border: 0; border-top: 1px dashed #ddd; margin: 15px 0; }
         #status-home { font-size: 12px; color: #666; text-align: center; margin-top: 5px; }
         
-        .tag-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-        .tag { background: #e9ecef; color: #333; font-size: 12px; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 6px; border: 1px solid #ddd; }
-        .tag-close { cursor: pointer; color: #dc3545; font-weight: bold; font-size: 13px; }
+        .tag-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .tag { background: #e9ecef; color: #333; font-size: 12px; padding: 4px 10px; border-radius: 15px; display: flex; align-items: center; gap: 4px; border: 1px solid #ddd; }
+        .tag-close { cursor: pointer; color: #dc3545; font-weight: bold; font-size: 14px; transition: transform 0.2s; }
         
         .switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 22px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         input:checked + .slider { background-color: #007bff; }
         input:checked + .slider:before { transform: translateX(18px); }
         
-        .page { display: none; animation: fadeIn 0.2s ease-in-out; }
+        .page { display: none; animation: fadeIn 0.3s ease-in-out; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         
-        .tab-bar { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 260px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; border-radius: 40px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); z-index: 100; padding: 5px; }
-        .tab-item { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; color: #666; cursor: pointer; transition: all 0.2s ease; border-radius: 30px; }
-        .tab-item.active { background: #007bff; color: #fff; font-weight: bold; }
+        .tab-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 260px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; border-radius: 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); z-index: 100; padding: 5px; }
+        .tab-item { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; color: #666; cursor: pointer; transition: all 0.3s ease; border-radius: 25px; }
+        .tab-item.active { background: #007bff; color: #fff; font-weight: bold; box-shadow: 0 3px 10px rgba(0,123,255,0.3); }
         
-        #toast { visibility: hidden; min-width: 160px; background-color: rgba(0, 0, 0, 0.85); color: #fff; text-align: center; border-radius: 30px; padding: 10px 16px; position: fixed; z-index: 1000; left: 50%; transform: translateX(-50%); bottom: 90px; font-size: 13px; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-        #toast.show { visibility: visible; opacity: 1; }
+        #toast { visibility: hidden; min-width: 160px; background-color: rgba(0, 0, 0, 0.85); color: #fff; text-align: center; border-radius: 30px; padding: 10px 16px; position: fixed; z-index: 1000; left: 50%; transform: translateX(-50%); bottom: 90px; font-size: 13px; opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 85px; }
         
-        .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 12px; line-height: 1.5; word-break: break-all; }
+        /* 历史记录恢复原样细节 */
+        .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 12px; line-height: 1.6; word-break: break-all; }
         
-        /* 流水线卡片精细化压缩 */
+        /* 批量卡片视觉瘦身 */
         .batch-card { border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: #fafafa; position: relative; }
         .batch-card.success { border-color: #28a745; background: #e8f5e9; }
-        .batch-card .close-btn { position: absolute; top: -6px; right: -6px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 18px; font-size: 12px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .batch-card .close-btn { position: absolute; top: -6px; right: -6px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 18px; font-size: 13px; cursor: pointer; }
         .batch-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: center; }
-        .batch-row input { padding: 8px 10px; font-size: 13px; margin: 0; height: 36px; }
-        .batch-row button { padding: 8px 12px; font-size: 13px; margin: 0; width: auto; flex: none; height: 36px; }
-        .batch-row img { height: 36px; width: 85px; border-radius: 4px; object-fit: contain; background: #fff; border: 1px solid #ddd; flex: none; }
-        .batch-status { font-size: 11px; color: #666; margin-top: 2px; font-weight: bold; }
+        .batch-row input { padding: 6px 10px; font-size: 13px; margin: 0; height: 34px; }
+        .batch-row button { padding: 6px 12px; font-size: 13px; margin: 0; width: auto; flex: none; height: 34px; }
+        .batch-row img { height: 34px; width: 85px; border-radius: 4px; object-fit: contain; background: #fff; border: 1px solid #ddd; flex: none; }
+        .batch-status { font-size: 11px; color: #666; margin-top: 4px; font-weight: bold; }
         
-        /* 智能解密日志控制台样式 */
-        .decrypted-log-box { width: 100%; height: 85px; font-family: monospace; font-size: 11px; margin-top: 8px; padding: 6px; border: 1px solid #bce8f1; border-radius: 4px; box-sizing: border-box; background: #ebf7fa; color: #31708f; word-break: break-all; resize: vertical; overflow-y: auto; }
+        /* 日志框 */
+        .decrypted-log-box { width: 100%; height: 70px; font-family: monospace; font-size: 11px; margin-top: 8px; padding: 6px; border: 1px solid #bce8f1; border-radius: 4px; box-sizing: border-box; background: #ebf7fa; color: #31708f; word-break: break-all; resize: vertical; overflow-y: auto; }
+        .version-text { font-size: 11px; color: #aaa; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
-
 <div id="toast">已更新样式</div>
-
 <div id="page-home" class="page active">
     <div class="box">
         <h3>单个注册</h3>
@@ -94,25 +95,34 @@
         <button class="secondary" onclick="sendEmail('home')" id="btnSend-home" disabled>1. 获取验证码</button>
         <div id="status-home">填写邮箱后自动加载验证码</div>
         <hr>
-        <div class="input-group">
-            <input type="text" id="emailCode-home" placeholder="等待自动接收或手动填入">
+        <div id="email-group" class="input-group"><input type="text" id="emailCode-home" placeholder="等待自动接收..."></div>
+        <div class="input-with-switch">
+            <input type="password" id="password-home" placeholder="设置密码">
+            <label class="switch" title="启用预设密码"><input type="checkbox" id="togglePwd" onchange="applyPresets()"><span class="slider"></span></label>
+        </div>
+        <div class="input-with-switch">
+            <input type="text" id="inviteCode-home" placeholder="邀请码 (必填/选填)">
+            <label class="switch" title="启用预设邀请码"><input type="checkbox" id="toggleInvite" onchange="applyPresets()"><span class="slider"></span></label>
         </div>
         <button onclick="doRegister('home')" id="btnReg-home">2. 提交注册</button>
-        <div id="logContainer-home"></div> <div class="version-text">Version: v2.3.0 (实时解密日志流版)</div>
+        <div id="logContainer-home"></div>
+        <div class="version-text">Version: v2.3.1 (全功能恢复+视觉优化版)</div>
     </div>
 </div>
 
 <div id="page-batch" class="page">
-    <div class="box" style="padding: 15px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+    <div class="box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <h3 style="margin: 0;">流水线工厂</h3>
-            <button class="secondary" style="width: auto; padding: 6px 12px; margin: 0; font-size: 12px;" onclick="addBatchTask()">+ 加卡片</button>
+            <button class="secondary" style="width: auto; padding: 5px 12px; margin: 0; font-size: 12px;" onclick="addBatchTask()">+ 添加账号</button>
         </div>
-        
+        <p style="font-size: 11px; color: #888; margin-top: 0; margin-bottom: 12px; line-height: 1.4;">
+            注：开启全自动捕获，如遇复杂加密邮件将在下方智能解码展示。
+        </p>
         <div style="display: flex; gap: 6px; margin-bottom: 12px;">
-            <button class="secondary" onclick="batchGenerateEmails()" style="margin:0; font-size: 12px; padding: 8px 0; flex: 1; background: #6c757d;">🎲 全随机</button>
-            <button class="secondary" onclick="batchSendEmails()" style="margin:0; font-size: 12px; padding: 8px 0; flex: 1;">✉️ 全发信</button>
-            <button class="secondary" onclick="batchRegister()" style="margin:0; font-size: 12px; padding: 8px 0; flex: 1; background: #28a745;">🚀 全注册</button>
+            <button class="secondary" onclick="batchGenerateEmails()" style="margin:0; font-size: 13px; padding: 8px 0; flex: 1; background: #6c757d;">🎲 全随机</button>
+            <button class="secondary" onclick="batchSendEmails()" style="margin:0; font-size: 13px; padding: 8px 0; flex: 1;">✉️ 全发信</button>
+            <button class="secondary" onclick="batchRegister()" style="margin:0; font-size: 13px; padding: 8px 0; flex: 1; background: #28a745;">🚀 全注册</button>
         </div>
         <div id="batchContainer"></div>
     </div>
@@ -120,14 +130,45 @@
 
 <div id="page-my" class="page">
     <div class="box">
-        <h3>配置面板</h3>
+        <h3>监听设置 (RPA)</h3>
         <div class="input-group"><input type="text" id="mailCatcherUrl" placeholder="Worker 监听地址"></div>
-        <div class="input-group"><input type="text" id="presetPwd" placeholder="全局默认密码"></div>
-        <div class="input-group"><input type="text" id="presetInvite" placeholder="默认邀请码"></div>
-        <button class="secondary" style="background: #28a745; margin-bottom: 0;" onclick="saveSettings(true)">💾 保存配置</button>
+        <button class="secondary" style="background: #28a745; margin-top: 5px; margin-bottom: 0;" onclick="saveSettings(true)">保存监听设置</button>
     </div>
+    
     <div class="box">
-        <h3>成功历史记录</h3>
+        <h3>邮箱域名预设</h3>
+        <div class="input-with-btn" style="margin-bottom: 5px;">
+            <input type="text" id="newDomain" placeholder="例如: @mt6688999.dpdns.org">
+            <button class="secondary" style="width: auto; padding: 0 15px; margin-bottom: 0;" onclick="addDomain()">添加</button>
+        </div>
+        <div id="domainList" class="tag-container"></div>
+    </div>
+    
+    <div class="box">
+        <h3>通用配置预设</h3>
+        <div class="input-group"><input type="text" id="presetPwd" placeholder="预设密码 (批量模式必填)"></div>
+        <div class="input-group"><input type="text" id="presetInvite" placeholder="预设邀请码"></div>
+        <button class="secondary" style="background: #28a745; margin-bottom: 0;" onclick="saveSettings(true)">保存通用预设</button>
+    </div>
+    
+    <div class="box">
+        <h3>WebDAV 云端同步</h3>
+        <div class="input-with-switch">
+            <label class="text-label">注册成功后自动上传</label>
+            <label class="switch"><input type="checkbox" id="toggleWebDAV" onchange="saveSettings(true)"><span class="slider"></span></label>
+        </div>
+        <div class="input-group"><input type="text" id="webdavUrl" placeholder="文件完整地址 (如 https://.../yt.csv)"></div>
+        <div class="input-group"><input type="text" id="webdavUser" placeholder="WebDAV 用户名"></div>
+        <div class="input-group"><input type="password" id="webdavPwd" placeholder="WebDAV 密码"></div>
+        <button class="secondary" style="background: #28a745; margin-bottom: 12px;" onclick="saveSettings(true)">💾 保存 WebDAV 配置</button>
+        <div style="display: flex; gap: 8px;">
+            <button class="secondary" style="margin-bottom: 0; font-size: 13px; background: #6c757d;" onclick="exportHistory()">保存到手机</button>
+            <button class="secondary" style="margin-bottom: 0; font-size: 13px;" onclick="syncToWebDAV(true)">手动同步云端</button>
+        </div>
+    </div>
+    
+    <div class="box">
+        <h3>成功记录</h3>
         <div id="historyContainer"></div>
     </div>
 </div>
@@ -135,9 +176,8 @@
 <div class="tab-bar">
     <div class="tab-item active" onclick="switchTab('home', this)">首页</div>
     <div class="tab-item" onclick="switchTab('batch', this)">批量</div>
-    <div class="tab-item" onclick="switchTab('my', this)">设置 menu</div>
+    <div class="tab-item" onclick="switchTab('my', this)">我的设置</div>
 </div>
-
 <script>
     const MY_PROXY = "https://broken-smoke-6508.zad13.workers.dev"; 
     let taskCtx = { 'home': { token: '', cookie: '', codeVali: '', emailVali: '', loaded: false, isRegistering: false, isSending: false } };
@@ -150,37 +190,63 @@
     window.onload = function() { loadSettings(); renderHistory(); addBatchTask(); };
 
     let toastTimeout;
-    function showToast(msg) { 
+    function showToast(msg, duration = 2500) { 
         const toast = document.getElementById("toast"); toast.innerText = msg; toast.classList.add("show"); 
-        clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove("show"); }, 2000); 
+        clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove("show"); }, duration); 
     }
 
     function loadSettings() {
         const settings = JSON.parse(localStorage.getItem('ytSettings') || '{}');
-        presetDomains = settings.domains || [];
+        presetDomains = settings.domains || []; renderDomains();
         document.getElementById('mailCatcherUrl').value = settings.mailCatcherUrl || '';
         document.getElementById('presetPwd').value = settings.presetPwd || '';
         document.getElementById('presetInvite').value = settings.presetInvite || '';
+        document.getElementById('togglePwd').checked = settings.usePresetPwd || false;
+        document.getElementById('toggleInvite').checked = settings.usePresetInvite || false;
+        // 恢复读取 WebDAV
+        document.getElementById('webdavUrl').value = settings.webdavUrl || '';
+        document.getElementById('webdavUser').value = settings.webdavUser || '';
+        document.getElementById('webdavPwd').value = settings.webdavPwd || '';
+        document.getElementById('toggleWebDAV').checked = settings.autoSyncWebDAV || false;
+        applyPresets();
     }
 
     function saveSettings(showFeedback = false) {
         const settings = { 
             domains: presetDomains, mailCatcherUrl: document.getElementById('mailCatcherUrl').value.trim(),
-            presetPwd: document.getElementById('presetPwd').value.trim(), presetInvite: document.getElementById('presetInvite').value.trim()
+            presetPwd: document.getElementById('presetPwd').value.trim(), presetInvite: document.getElementById('presetInvite').value.trim(),
+            usePresetPwd: document.getElementById('togglePwd').checked, usePresetInvite: document.getElementById('toggleInvite').checked,
+            // 恢复保存 WebDAV
+            webdavUrl: document.getElementById('webdavUrl').value.trim(), webdavUser: document.getElementById('webdavUser').value.trim(),
+            webdavPwd: document.getElementById('webdavPwd').value.trim(), autoSyncWebDAV: document.getElementById('toggleWebDAV').checked
         };
         localStorage.setItem('ytSettings', JSON.stringify(settings));
-        if (showFeedback) showToast("✅ 配置保存成功");
+        if (showFeedback) showToast("✅ 设置已保存生效");
+    }
+
+    function addDomain() { let val = document.getElementById('newDomain').value.trim(); if (!val) return; if (!val.startsWith('@')) val = '@' + val; if (presetDomains.includes(val)) return showToast("⚠️ 该后缀已存在"); presetDomains.push(val); saveSettings(false); renderDomains(); document.getElementById('newDomain').value = ''; showToast("✅ 添加成功"); }
+    function removeDomain(index) { presetDomains.splice(index, 1); saveSettings(false); renderDomains(); showToast("🗑️ 已移除"); }
+    function renderDomains() { const container = document.getElementById('domainList'); if (presetDomains.length === 0) return container.innerHTML = '<span style="color:#999;font-size:12px;padding:5px;">暂无域名</span>'; container.innerHTML = presetDomains.map((domain, idx) => `<span class="tag">${domain}<span class="tag-close" onclick="removeDomain(${idx})">×</span></span>`).join(''); }
+
+    function applyPresets() {
+        saveSettings(false);
+        const pwdInput = document.getElementById('password-home'), inviteInput = document.getElementById('inviteCode-home');
+        const presetPwd = document.getElementById('presetPwd').value.trim(), presetInvite = document.getElementById('presetInvite').value.trim();
+        const usePwd = document.getElementById('togglePwd').checked, useInvite = document.getElementById('toggleInvite').checked;
+        if (usePwd && presetPwd) { pwdInput.value = presetPwd; pwdInput.readOnly = true; } else { if (usePwd && !presetPwd) { showToast("⚠️ 请先设置密码"); document.getElementById('togglePwd').checked = false; } pwdInput.value = ""; pwdInput.readOnly = false; }
+        if (useInvite && presetInvite) { inviteInput.value = presetInvite; inviteInput.readOnly = true; } else { if (useInvite && !presetInvite) { showToast("⚠️ 请先设置邀请码"); document.getElementById('toggleInvite').checked = false; } inviteInput.value = ""; inviteInput.readOnly = false; }
     }
 
     function switchTab(tabName, el) {
         document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active')); el.classList.add('active');
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active')); document.getElementById(`page-${tabName}`).classList.add('active');
+        if(tabName === 'home') applyPresets();
     }
 
     function addBatchTask() {
         batchCounter++; const id = `batch-${batchCounter}`; activeTasks.push(id);
         taskCtx[id] = { token: '', cookie: '', codeVali: '', emailVali: '', loaded: false, isRegistering: false, isSending: false };
-        const html = `<div class="batch-card" id="card-${id}"><div class="close-btn" onclick="removeBatchTask('${id}')">×</div><div class="batch-row"><input type="email" id="email-${id}" placeholder="邮箱" oninput="checkEmailInput('${id}')"><div class="icon-btn" style="width:36px; height:36px;" onclick="generateRandomEmail('${id}')">🎲</div></div><div class="batch-row"><input type="text" id="captchaInput-${id}" placeholder="码" style="width: 55px;"><img id="captchaImg-${id}" src="" onclick="refreshCaptcha('${id}')"><button class="secondary" id="btnSend-${id}" onclick="sendEmail('${id}')" disabled>发信</button></div><div class="batch-row"><input type="text" id="emailCode-${id}" placeholder="邮件验证码"><button class="secondary" id="btnReg-${id}" onclick="doRegister('${id}')">注册</button></div><div class="batch-status" id="status-${id}">等待操作...</div><div id="logContainer-${id}"></div></div>`;
+        const html = `<div class="batch-card" id="card-${id}"><div class="close-btn" onclick="removeBatchTask('${id}')">×</div><div class="batch-row"><input type="email" id="email-${id}" placeholder="邮箱" oninput="checkEmailInput('${id}')"><div class="icon-btn" style="width:34px; height:34px;" onclick="generateRandomEmail('${id}')">🎲</div></div><div class="batch-row"><input type="text" id="captchaInput-${id}" placeholder="码" style="width: 50px;"><img id="captchaImg-${id}" src="" onclick="refreshCaptcha('${id}')"><button class="secondary" id="btnSend-${id}" onclick="sendEmail('${id}')" disabled>发信</button></div><div class="batch-row"><input type="text" id="emailCode-${id}" placeholder="验证码"><button class="secondary" id="btnReg-${id}" onclick="doRegister('${id}')">注册</button></div><div class="batch-status" id="status-${id}">等待操作...</div><div id="logContainer-${id}"></div></div>`;
         document.getElementById('batchContainer').insertAdjacentHTML('beforeend', html);
     }
 
@@ -189,37 +255,32 @@
     function generateTokenForApi() { const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; let token = ''; for (let i = 0; i < 32; i++) token += chars.charAt(Math.floor(Math.random() * chars.length)); return token; }
 
     function generateRandomEmail(id = 'home') {
-        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'; let prefix = ''; const len = Math.floor(Math.random() * 4) + 6;
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'; let prefix = ''; const len = Math.floor(Math.random() * 5) + 6;
         for (let i = 0; i < len; i++) prefix += chars.charAt(Math.floor(Math.random() * chars.length));
         let suffix = presetDomains.length > 0 ? presetDomains[Math.floor(Math.random() * presetDomains.length)] : "@gmail.com";
-        document.getElementById(`email-${id}`).value = prefix + suffix; checkEmailInput(id);
+        const emailInput = document.getElementById(`email-${id}`); if(emailInput) { emailInput.value = prefix + suffix; checkEmailInput(id); if (id === 'home') showToast("🎲 已生成", 1500); }
     }
 
-    function batchGenerateEmails() { activeTasks.filter(id => id !== 'home').forEach(id => generateRandomEmail(id)); showToast("🎲 邮箱填充完毕"); }
+    async function batchGenerateEmails() { activeTasks.filter(id => id !== 'home').forEach(id => generateRandomEmail(id)); showToast("🎲 填充完毕"); }
 
     async function batchSendEmails() {
-        const tasks = activeTasks.filter(id => id !== 'home'); if(tasks.length === 0) return showToast("⚠️ 列表为空");
-        for (let id of tasks) { 
-            const em = document.getElementById(`email-${id}`).value.trim(); const cp = document.getElementById(`captchaInput-${id}`).value.trim();
-            if (em && cp) { await sendEmail(id, true); await randomSleep(1000, 2000); }
-        }
+        const tasks = activeTasks.filter(id => id !== 'home'); if(tasks.length === 0) return showToast("⚠️ 请先添加卡片");
+        for (let id of tasks) { const em = document.getElementById(`email-${id}`).value.trim(); const cp = document.getElementById(`captchaInput-${id}`).value.trim(); if (em && cp) { await sendEmail(id, true); await randomSleep(1000, 2500); } }
+        showToast("✉️ 发信指令结束");
     }
 
     async function batchRegister() {
-        const tasks = activeTasks.filter(id => id !== 'home'); if(tasks.length === 0) return showToast("⚠️ 列表为空");
-        for (let id of tasks) {
-            const em = document.getElementById(`email-${id}`).value.trim(); const cd = document.getElementById(`emailCode-${id}`).value.trim();
-            if (em && cd) { await doRegister(id, true); await randomSleep(1500, 2500); }
-        }
+        const tasks = activeTasks.filter(id => id !== 'home'); if(tasks.length === 0) return showToast("⚠️ 请先添加卡片");
+        for (let id of tasks) { const em = document.getElementById(`email-${id}`).value.trim(); const cd = document.getElementById(`emailCode-${id}`).value.trim(); if (em && cd) { await doRegister(id, true); await randomSleep(1500, 3000); } }
+        showToast("🚀 注册指令结束");
     }
 
     async function refreshCaptcha(id) {
-        if (!taskCtx[id]) return; document.getElementById(`status-${id}`).innerText = "拉取验证码..."; taskCtx[id].token = generateTokenForApi();
+        if (!taskCtx[id]) return; document.getElementById(`status-${id}`).innerText = "拉取中..."; taskCtx[id].token = generateTokenForApi();
         try {
             const res = await fetch(`${MY_PROXY}/getCode?verify_token=${taskCtx[id].token}&t=${new Date().getTime()}`);
             const cookieVal = res.headers.get("X-Yt-Cookie"); if (cookieVal && taskCtx[id]) taskCtx[id].cookie = cookieVal;
-            const base64Text = await res.text();
-            if (base64Text.includes("iVBOR") && taskCtx[id]) { document.getElementById(`captchaImg-${id}`).src = "data:image/png;base64," + base64Text; document.getElementById(`status-${id}`).innerText = "验证码就绪"; taskCtx[id].loaded = true; }
+            const base64Text = await res.text(); if (base64Text.includes("iVBOR") && taskCtx[id]) { document.getElementById(`captchaImg-${id}`).src = "data:image/png;base64," + base64Text; document.getElementById(`status-${id}`).innerText = "验证码就绪"; taskCtx[id].loaded = true; }
         } catch (e) { if(document.getElementById(`status-${id}`)) document.getElementById(`status-${id}`).innerText = "拉取失败"; }
     }
 
@@ -228,12 +289,11 @@
         if (emailVal.includes('@')) { btn.disabled = false; if (!taskCtx[id].loaded) refreshCaptcha(id); } else { btn.disabled = true; }
     }
 
-    // ================= 核心重构：带【实时解密明文流显示】的自动化接收系统 =================
+    // 【核心保留】带解密明文展示的自动抓取
     async function autoFetchEmailCode(email, id, catcherApi) {
         const statusEl = document.getElementById(`status-${id}`); if(!statusEl) return;
         const logContainer = document.getElementById(`logContainer-${id}`);
-        statusEl.innerText = "🔄 正在请求拦截监听网关...";
-        
+        statusEl.innerText = "🔄 监听网关中..."; statusEl.style.color = "#007bff";
         const fetchUrl = `${catcherApi.replace(/\/$/, '')}/get_code?email=${encodeURIComponent(email)}`;
         
         for (let i = 0; i < 40; i++) {
@@ -243,52 +303,45 @@
                 const res = await fetch(fetchUrl); const data = await res.json();
                 
                 if (data.status === "success" && data.raw) {
-                    // 【满足疑惑需求】：只要检测到邮件到了，立即在下方生成流式的“解密明文控制台”，把洗干净的内容吐给用户看
                     let logBox = document.getElementById(`raw-log-${id}`);
                     if (!logBox && logContainer) {
-                        logBox = document.createElement('textarea'); logBox.id = `raw-log-${id}`; logBox.className = 'decrypted-log-box';
-                        logContainer.appendChild(logBox);
+                        logBox = document.createElement('textarea'); logBox.id = `raw-log-${id}`; logBox.className = 'decrypted-log-box'; logBox.readOnly = true; logContainer.appendChild(logBox);
                     }
-                    if (logBox) {
-                        logBox.value = `[时间戳: ${new Date().toLocaleTimeString()}] 信号已捕获!\n--- 原始邮件经云端 Worker 强行反编译 & 去标签后的明文正文如下 ---\n${data.raw.trim()}`;
-                    }
+                    if (logBox) { logBox.value = `[${new Date().toLocaleTimeString()}] 截获成功!\n-- 解密正文 --\n${data.raw.trim()}`; }
 
                     if (data.code && document.getElementById(`emailCode-${id}`)) {
-                        // 提取数字成功，填充数据
                         document.getElementById(`emailCode-${id}`).value = data.code;
-                        statusEl.innerText = "⚡ 提取明文成功，已填充"; statusEl.style.color = "#28a745";
-                        showToast(`🎉 账号捕获成功`);
-                        return; // 捕获成功，停止轮询，等待用户确认手动点击“注册”或走批量逻辑
+                        statusEl.innerText = "⚡ 明文提取成功，已填充"; statusEl.style.color = "#28a745";
+                        showToast(`🎉 收到验证码！`, 1500); return; 
                     } else {
-                        statusEl.innerText = "⚠️ 邮件已译码，但正则未滤出纯数字，请阅读下方控制台"; statusEl.style.color = "#ff9800";
-                        return;
+                        statusEl.innerText = "⚠️ 正则未能提取出纯数字，请阅读下方控制台手动填入"; statusEl.style.color = "#ff9800"; return;
                     }
                 }
             } catch(e) {}
-            await randomSleep(2000, 3000); // 维持节拍
+            await randomSleep(2500, 3500);
         }
-        if(statusEl) { statusEl.innerText = "❌ 超时未收到信件"; statusEl.style.color = "#dc3545"; }
+        if(statusEl) { statusEl.innerText = "❌ 超时未收到"; statusEl.style.color = "#dc3545"; }
     }
 
     async function sendEmail(id, isBatch = false) {
         if (!taskCtx[id] || taskCtx[id].isSending) return;
         const email = document.getElementById(`email-${id}`).value.trim(); const cp = document.getElementById(`captchaInput-${id}`).value.trim().toUpperCase();
-        if(!email || !cp) { if(!isBatch) showToast("⚠️ 请填写验证码"); return; }
+        if(!email || !cp) { if(!isBatch) showToast("⚠️ 填好信息"); return; }
         
         const btn = document.getElementById(`btnSend-${id}`), statusEl = document.getElementById(`status-${id}`);
-        taskCtx[id].isSending = true; btn.disabled = true; btn.innerText = "..."; statusEl.innerText = "发信请求中...";
+        taskCtx[id].isSending = true; btn.disabled = true; btn.innerText = "..."; statusEl.innerText = "发信中...";
         
         try {
             const res = await fetch(`${MY_PROXY}/send_reg_email`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': taskCtx[id].cookie || '' }, body: JSON.stringify({ imail: email, verify_token: taskCtx[id].token, verify_code: cp }) });
             const resData = await res.json();
             if(resData.code === 1 && taskCtx[id]) {
-                statusEl.innerText = "✅ 投递成功，等待回传";
+                if(!isBatch) showToast("✉️ 投递成功"); statusEl.innerText = "✅ 已发送，等待回传";
                 taskCtx[id].codeVali = resData.data.code_vali; taskCtx[id].emailVali = resData.data.email_vali;
                 const api = document.getElementById('mailCatcherUrl').value; if(api) autoFetchEmailCode(email, id, api);
             } else {
-                statusEl.innerText = "❌ 发信被拒: " + (resData.msg || "错误"); statusEl.style.color = "#dc3545"; refreshCaptcha(id);
+                if(!isBatch) showToast(`❌ 失败: ${resData.msg}`, 3000); statusEl.innerText = "❌ 拒收: " + (resData.msg || "错误"); statusEl.style.color = "#dc3545"; refreshCaptcha(id);
             }
-        } catch(e) { if(statusEl) statusEl.innerText = "网络阻断"; } 
+        } catch(e) { if(statusEl) statusEl.innerText = "网络异常"; } 
         finally { if (taskCtx[id]) taskCtx[id].isSending = false; if (btn) { btn.disabled = false; btn.innerText = id === 'home' ? "1. 获取验证码" : "发信"; } }
     }
 
@@ -299,7 +352,7 @@
         
         let password, inviteCode;
         if (id === 'home') { password = document.getElementById('password-home').value.trim(); inviteCode = document.getElementById('inviteCode-home').value.trim(); } 
-        else { password = document.getElementById('presetPwd').value.trim(); inviteCode = document.getElementById('presetInvite').value.trim(); if(!password) { statusEl.innerText = "❌ 缺预设密码"; return; } }
+        else { password = document.getElementById('presetPwd').value.trim(); inviteCode = document.getElementById('presetInvite').value.trim(); if(!password) { if(!isBatch) showToast("⚠️ 缺预设密码"); if(statusEl) statusEl.innerText = "❌ 缺预设密码"; return; } }
         if(!email || !code || !taskCtx[id].codeVali) { if(!isBatch) showToast("⚠️ 凭证不完整"); return; }
 
         taskCtx[id].isRegistering = true; if(btn) { btn.disabled = true; btn.innerText = "..."; }
@@ -310,28 +363,35 @@
             const data = await res.json();
             
             if(data.code === 1) {
-                if(statusEl) { statusEl.innerText = "✅ 注册成功"; statusEl.style.color = "#28a745"; }
+                if(!isBatch) showToast("🎉 归档成功！"); if(statusEl) { statusEl.innerText = "✅ 注册成功"; statusEl.style.color = "#28a745"; }
                 addHistoryRecord(email, password, inviteCode);
                 if (id !== 'home') { const card = document.getElementById(`card-${id}`); if(card) { card.classList.add('success'); card.querySelectorAll('input,button').forEach(i => i.disabled = true); } }
             } else {
-                if(statusEl) { statusEl.innerText = "❌ 失败: " + data.msg; statusEl.style.color = "#dc3545"; }
+                if(!isBatch) showToast(`❌ 驳回: ${data.msg}`, 3000); if(statusEl) { statusEl.innerText = "❌ 失败: " + data.msg; statusEl.style.color = "#dc3545"; }
             }
         } catch(e) { if(statusEl) statusEl.innerText = "❌ 异常请求"; } 
         finally { if (taskCtx[id]) taskCtx[id].isRegistering = false; if (btn && statusEl && !statusEl.innerText.includes("✅")) { btn.disabled = false; btn.innerText = id === 'home' ? "2. 提交注册" : "注册"; } }
     }
     
+    // 恢复 2.2.0 的完整历史记录展示
     function addHistoryRecord(email, password, inviteCode) {
         let history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); const now = new Date();
-        const timeString = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+        const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
         history.unshift({ email: email, password: password, invite: inviteCode || '无', time: timeString }); localStorage.setItem('ytHistory', JSON.stringify(history)); renderHistory();
+        if (document.getElementById('toggleWebDAV').checked) syncToWebDAV(false);
     }
 
     function renderHistory() {
         const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); const container = document.getElementById('historyContainer');
-        if (history.length === 0) return container.innerHTML = '<div style="text-align:center;color:#999;font-size:12px;padding:10px;">空</div>';
-        let html = ''; history.forEach(item => { html += `<div class="history-card"><strong>[${item.time}]</strong> 帐号: ${item.email} | 密码: ${item.password}</div>`; });
+        if (history.length === 0) return container.innerHTML = '<div class="empty-tip" style="text-align:center;color:#999;font-size:13px;padding:20px;">暂无记录</div>';
+        let html = ''; history.forEach(item => { html += `<div class="history-card"><div class="history-time" style="font-size:11px;color:#999;margin-bottom:5px;">${item.time}</div><div>账号：<strong>${item.email}</strong></div><div>密码：<strong>${item.password}</strong></div><div>邀请码：${item.invite}</div></div>`; });
         container.innerHTML = html;
     }
+
+    // 完美恢复 WebDAV 和本地导出功能
+    function getCsvContent() { const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); let csvContent = "\uFEFF注册时间,账号,密码,邀请码\n"; history.forEach(item => { csvContent += `${item.time},${item.email},${item.password},${item.invite}\n`; }); return csvContent; }
+    function exportHistory() { const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); if (history.length === 0) return showToast("暂无记录可导出"); const blob = new Blob([getCsvContent()], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); const url = URL.createObjectURL(blob); link.setAttribute("href", url); link.setAttribute("download", `YT_Accounts_${new Date().getTime()}.csv`); link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast("✅ 已触发下载"); }
+    async function syncToWebDAV(isManual) { const history = JSON.parse(localStorage.getItem('ytHistory') || '[]'); if (history.length === 0 && isManual) return showToast("本地暂无记录，无需同步"); const url = document.getElementById('webdavUrl').value.trim(), user = document.getElementById('webdavUser').value.trim(), pwd = document.getElementById('webdavPwd').value.trim(); if (!url || !user || !pwd) { if (isManual) showToast("⚠️ 请填写完整的 WebDAV 配置"); return; } if (isManual) showToast("正在同步到云端..."); try { const base64Auth = btoa(unescape(encodeURIComponent(user + ':' + pwd))); const response = await fetch(url, { method: 'PUT', headers: { 'Authorization': 'Basic ' + base64Auth, 'Content-Type': 'text/csv; charset=utf-8' }, body: getCsvContent() }); if (response.ok || response.status === 201 || response.status === 204) { if (isManual) showToast("✅ 云端同步成功！"); } else { if (isManual) showToast(`❌ 同步失败 (状态码 ${response.status})`); } } catch (error) { if (isManual) showToast(`❌ 网络请求失败，请检查链接`); } }
 </script>
 </body>
 </html>
