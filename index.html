@@ -8,45 +8,59 @@
         body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 90px; }
         .box { background: #fff; padding: 20px; border-radius: 12px; margin: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h3 { text-align: center; color: #333; margin-top: 0; }
+        
         .input-group { margin-bottom: 12px; }
         input { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
         input:focus { border-color: #007bff; outline: none; }
         input:read-only { background-color: #f8f9fa; color: #666; }
+        
         .input-with-btn { display: flex; gap: 8px; margin-bottom: 12px; }
         .input-with-btn input { flex: 1; margin-bottom: 0; }
         .icon-btn { width: 44px; padding: 0; display: flex; justify-content: center; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 18px; cursor: pointer; transition: all 0.2s; margin-bottom: 0; }
         .icon-btn:active { background: #e2e6ea; transform: scale(0.95); }
+        
         .input-with-switch { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .input-with-switch input { flex: 1; margin-bottom: 0; }
         .input-with-switch label.text-label { font-size: 14px; color: #333; flex: 1; margin-bottom: 0; }
+        
         .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
         .captcha-row input { margin-bottom: 0; flex: 1; }
         .captcha-row img { height: 42px; width: 120px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
+        
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; margin-bottom: 15px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
         button:active { transform: scale(0.98); }
         button.secondary { background: #007bff; }
         button:disabled { background: #ccc !important; cursor: not-allowed; transform: none; }
+        
         hr { border: 0; border-top: 1px dashed #ddd; margin: 20px 0; }
         #status-home { font-size: 12px; color: #666; text-align: center; margin-top: 10px; }
+        
         .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .tag { background: #e9ecef; color: #333; font-size: 12px; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; border: 1px solid #ddd; }
         .tag-close { cursor: pointer; color: #dc3545; font-weight: bold; font-size: 14px; transition: transform 0.2s; }
+        .tag-close:active { transform: scale(1.2); }
+        
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         input:checked + .slider { background-color: #007bff; }
         input:checked + .slider:before { transform: translateX(20px); }
+        
         .page { display: none; animation: fadeIn 0.3s ease-in-out; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        
         .tab-bar { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 280px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; border-radius: 40px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 100; padding: 6px; }
         .tab-item { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; color: #666; cursor: pointer; transition: all 0.3s ease; border-radius: 30px; }
         .tab-item.active { background: #007bff; color: #fff; font-weight: bold; box-shadow: 0 4px 12px rgba(0,123,255,0.3); }
+        
         #toast { visibility: hidden; min-width: 180px; background-color: rgba(0, 0, 0, 0.8); color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px; position: fixed; z-index: 1000; left: 50%; transform: translateX(-50%); bottom: 90px; font-size: 14px; opacity: 0; transition: opacity 0.3s, bottom 0.3s; backdrop-filter: blur(5px); pointer-events: none; }
         #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
+
         .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; word-break: break-all; }
         .history-card strong { color: #333; }
+        
         .batch-card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 12px; background: #fafafa; position: relative; transition: all 0.3s; }
         .batch-card.success { border-color: #28a745; background: #e8f5e9; }
         .batch-card .close-btn { position: absolute; top: -6px; right: -6px; background: #dc3545; color: white; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 20px; font-size: 14px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -55,11 +69,14 @@
         .batch-row button { padding: 8px; font-size: 13px; margin: 0; width: auto; white-space: nowrap; flex: none; }
         .batch-row img { height: 34px; width: 90px; border-radius: 4px; object-fit: contain; background: #fff; border: 1px solid #ddd; flex: none; }
         .batch-status { font-size: 11px; color: #666; margin-top: 4px; font-weight: bold; }
+
         .version-text { font-size: 11px; color: #aaa; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
+
 <div id="toast">保存成功</div>
+
 <div id="page-home" class="page active">
     <div class="box">
         <h3>单个注册</h3>
@@ -89,6 +106,7 @@
         <div class="version-text">Version: v2.1.0 (全自动 RPA 监听版 + 完美延时)</div>
     </div>
 </div>
+
 <div id="page-batch" class="page">
     <div class="box" style="padding: 15px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -98,48 +116,76 @@
         <p style="font-size: 11px; color: #888; margin-top: 0; margin-bottom: 15px; line-height: 1.4;">
             注：开启自动捕获后，发信成功将<strong style="color:#28a745">自动接收并秒级提交注册</strong>。
         </p>
+        
         <div style="display: flex; gap: 8px; margin-bottom: 15px; background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
             <button class="secondary" style="margin:0; padding: 8px 0; font-size: 13px; flex: 1; background: #6c757d;" onclick="batchGenerateEmails()">🎲 全随机</button>
             <button class="secondary" style="margin:0; padding: 8px 0; font-size: 13px; flex: 1;" onclick="batchSendEmails()">✉️ 全发信</button>
             <button class="secondary" style="margin:0; padding: 8px 0; font-size: 13px; flex: 1; background: #28a745;" onclick="batchRegister()">🚀 全注册</button>
         </div>
+
         <div id="batchContainer"></div>
     </div>
 </div>
+
 <div id="page-my" class="page">
     <div class="box">
         <h3>邮件验证码监听配置 (RPA)</h3>
-        <p style="font-size: 12px; color: #666; margin-top: 0;">配置 mail-catcher Worker 地址，实现全自动拦截</p>
-        <div class="input-group"><input type="text" id="mailCatcherUrl" placeholder="如: https://mail-catcher.xxxx.workers.dev"></div>
+        <p style="font-size: 12px; color: #666; margin-top: 0;">配置刚才新建的 mail-catcher Worker 地址，实现验证码全自动拦截填入</p>
+        <div class="input-group">
+            <input type="text" id="mailCatcherUrl" placeholder="如: https://mail-catcher.xxxx.workers.dev">
+        </div>
         <button class="secondary" style="background: #28a745; margin-bottom: 0; padding: 10px;" onclick="saveSettings(true)">💾 保存监听配置</button>
     </div>
+
     <div class="box">
         <h3>邮箱域名预设</h3>
-        <p style="font-size: 12px; color: #666; margin-top: 0;">首页掷骰子时将从中随机抽取</p>
-        <div class="input-with-btn" style="margin-bottom: 5px;"><input type="text" id="newDomain" placeholder="例如: @mt6688999.dpdns.org"><button class="secondary" style="width: auto; padding: 0 15px; margin-bottom: 0; font-size: 14px;" onclick="addDomain()">添加</button></div>
+        <p style="font-size: 12px; color: #666; margin-top: 0;">添加你的域名后缀，首页掷骰子时将从中随机抽取</p>
+        <div class="input-with-btn" style="margin-bottom: 5px;">
+            <input type="text" id="newDomain" placeholder="例如: @mt6688999.dpdns.org">
+            <button class="secondary" style="width: auto; padding: 0 15px; margin-bottom: 0; font-size: 14px;" onclick="addDomain()">添加</button>
+        </div>
         <div id="domainList" class="tag-container"></div>
     </div>
+
     <div class="box">
         <h3>通用配置预设 <span style="color:#dc3545;font-size:12px;">(批量模式必填)</span></h3>
-        <div class="input-group"><input type="text" id="presetPwd" placeholder="在此输入预设统一密码"></div>
-        <div class="input-group"><input type="text" id="presetInvite" placeholder="在此输入预设邀请码"></div>
+        <div class="input-group">
+            <input type="text" id="presetPwd" placeholder="在此输入预设统一密码">
+        </div>
+        <div class="input-group">
+            <input type="text" id="presetInvite" placeholder="在此输入预设邀请码">
+        </div>
         <button class="secondary" style="background: #28a745; margin-bottom: 0; padding: 10px;" onclick="saveSettings(true)">💾 保存通用预设</button>
     </div>
+    
     <div class="box">
         <h3>WebDAV 云端同步</h3>
-        <div class="input-with-switch"><label class="text-label">注册成功后自动上传</label><label class="switch"><input type="checkbox" id="toggleWebDAV" onchange="saveSettings(true)"><span class="slider"></span></label></div>
-        <div class="input-group"><input type="text" id="webdavUrl" placeholder="文件完整地址"></div>
+        <div class="input-with-switch">
+            <label class="text-label">注册成功后自动上传</label>
+            <label class="switch"><input type="checkbox" id="toggleWebDAV" onchange="saveSettings(true)"><span class="slider"></span></label>
+        </div>
+        <div class="input-group"><input type="text" id="webdavUrl" placeholder="文件完整地址 (如 https://.../yt.csv)"></div>
         <div class="input-group"><input type="text" id="webdavUser" placeholder="WebDAV 用户名"></div>
         <div class="input-group"><input type="password" id="webdavPwd" placeholder="WebDAV 密码"></div>
         <button class="secondary" style="background: #28a745; padding: 10px; margin-bottom: 15px;" onclick="saveSettings(true)">💾 保存 WebDAV 配置</button>
-        <div style="display: flex; gap: 10px;"><button class="secondary" style="margin-bottom: 0; padding: 10px; font-size: 14px; background: #6c757d;" onclick="exportHistory()">保存到手机</button><button class="secondary" style="margin-bottom: 0; padding: 10px; font-size: 14px;" onclick="syncToWebDAV(true)">手动同步云端</button></div>
+        
+        <div style="display: flex; gap: 10px;">
+            <button class="secondary" style="margin-bottom: 0; padding: 10px; font-size: 14px; background: #6c757d;" onclick="exportHistory()">保存到手机</button>
+            <button class="secondary" style="margin-bottom: 0; padding: 10px; font-size: 14px;" onclick="syncToWebDAV(true)">手动同步云端</button>
+        </div>
     </div>
+
     <div class="box">
         <h3>成功注册记录</h3>
         <div id="historyContainer"></div>
     </div>
 </div>
-<div class="tab-bar"><div class="tab-item active" onclick="switchTab('home', this)">首页</div><div class="tab-item" onclick="switchTab('batch', this)">批量</div><div class="tab-item" onclick="switchTab('my', this)">我的设置</div></div>
+
+<div class="tab-bar">
+    <div class="tab-item active" onclick="switchTab('home', this)">首页</div>
+    <div class="tab-item" onclick="switchTab('batch', this)">批量</div>
+    <div class="tab-item" onclick="switchTab('my', this)">我的设置</div>
+</div>
 <script>
     const MY_PROXY = "https://broken-smoke-6508.zad13.workers.dev"; 
     
@@ -147,9 +193,6 @@
     let activeTasks = ['home'];
     let batchCounter = 0;
     let presetDomains = [];
-
-    // 增加一个强制休眠函数，用于控制请求节奏
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
     window.onload = function() {
         loadSettings();
@@ -243,7 +286,26 @@
         const id = `batch-${batchCounter}`;
         activeTasks.push(id);
         taskCtx[id] = { token: '', cookie: '', codeVali: '', emailVali: '', loaded: false };
-        const html = `<div class="batch-card" id="card-${id}"><div class="close-btn" onclick="removeBatchTask('${id}')">×</div><div class="batch-row"><input type="email" id="email-${id}" placeholder="邮箱地址" oninput="checkEmailInput('${id}')"><div class="icon-btn" style="width: 34px; height: 34px; font-size: 14px;" onclick="generateRandomEmail('${id}')">🎲</div></div><div class="batch-row"><input type="text" id="captchaInput-${id}" placeholder="验证码" style="text-transform: uppercase; width: 70px; flex: none;"><img id="captchaImg-${id}" src="" onclick="refreshCaptcha('${id}')" title="点击刷新" alt="点击拉取图片..."><button class="secondary" id="btnSend-${id}" onclick="sendEmail('${id}')" disabled>发信</button></div><div class="batch-row"><input type="text" id="emailCode-${id}" placeholder="输入邮箱6位验证码"><button class="secondary" style="background:#28a745;" id="btnReg-${id}" onclick="doRegister('${id}')">注册</button></div><div class="batch-status" id="status-${id}">等待操作...</div></div>`;
+
+        const html = `
+            <div class="batch-card" id="card-${id}">
+                <div class="close-btn" onclick="removeBatchTask('${id}')">×</div>
+                <div class="batch-row">
+                    <input type="email" id="email-${id}" placeholder="邮箱地址" oninput="checkEmailInput('${id}')">
+                    <div class="icon-btn" style="width: 34px; height: 34px; font-size: 14px;" onclick="generateRandomEmail('${id}')">🎲</div>
+                </div>
+                <div class="batch-row">
+                    <input type="text" id="captchaInput-${id}" placeholder="验证码" style="text-transform: uppercase; width: 70px; flex: none;">
+                    <img id="captchaImg-${id}" src="" onclick="refreshCaptcha('${id}')" title="点击刷新" alt="点击拉取图片...">
+                    <button class="secondary" id="btnSend-${id}" onclick="sendEmail('${id}')" disabled>发信</button>
+                </div>
+                <div class="batch-row">
+                    <input type="text" id="emailCode-${id}" placeholder="输入邮箱6位验证码">
+                    <button class="secondary" style="background:#28a745;" id="btnReg-${id}" onclick="doRegister('${id}')">注册</button>
+                </div>
+                <div class="batch-status" id="status-${id}">等待操作...</div>
+            </div>
+        `;
         document.getElementById('batchContainer').insertAdjacentHTML('beforeend', html);
     }
 
@@ -253,7 +315,7 @@
         delete taskCtx[id];
     }
 
-    async function batchGenerateEmails() {
+    function batchGenerateEmails() {
         const tasks = activeTasks.filter(id => id !== 'home');
         if (tasks.length === 0) return showToast("⚠️ 请先添加账号任务");
         tasks.forEach(id => generateRandomEmail(id));
@@ -263,29 +325,25 @@
     async function batchSendEmails() {
         const tasks = activeTasks.filter(id => id !== 'home');
         if (tasks.length === 0) return showToast("⚠️ 请先添加账号任务");
+        let count = 0;
         for (let id of tasks) {
             const em = document.getElementById(`email-${id}`).value.trim();
             const cp = document.getElementById(`captchaInput-${id}`).value.trim();
-            if (em && cp) { 
-                await sendEmail(id, true); 
-                await sleep(2000); // 批量发信间隔 2 秒
-            }
+            if (em && cp) { await sendEmail(id, true); count++; }
         }
-        showToast("✉️ 批量发信执行完毕");
+        showToast(`✉️ 批量发信执行完毕 (触发 ${count} 个)`);
     }
 
     async function batchRegister() {
         const tasks = activeTasks.filter(id => id !== 'home');
         if (tasks.length === 0) return showToast("⚠️ 请先添加账号任务");
+        let count = 0;
         for (let id of tasks) {
             const em = document.getElementById(`email-${id}`).value.trim();
             const cd = document.getElementById(`emailCode-${id}`).value.trim();
-            if (em && cd && taskCtx[id].codeVali) { 
-                await doRegister(id, true); 
-                await sleep(3000); // 批量注册间隔 3 秒
-            }
+            if (em && cd && taskCtx[id].codeVali) { await doRegister(id, true); count++; }
         }
-        showToast("🚀 批量注册执行完毕");
+        showToast(`🚀 批量注册执行完毕 (触发 ${count} 个)`);
     }
 
     function generateTokenForApi() {
@@ -298,7 +356,9 @@
         let prefix = ''; const len = Math.floor(Math.random() * 5) + 6;
         for (let i = 0; i < len; i++) prefix += chars.charAt(Math.floor(Math.random() * chars.length));
         let suffix = "@gmail.com"; 
-        if (presetDomains && presetDomains.length > 0) suffix = presetDomains[Math.floor(Math.random() * presetDomains.length)];
+        if (presetDomains && presetDomains.length > 0) { suffix = presetDomains[Math.floor(Math.random() * presetDomains.length)]; } 
+        else { if (id === 'home') showToast("⚠️ 未配置域名，使用默认后缀"); }
+        
         const emailInput = document.getElementById(`email-${id}`);
         emailInput.value = prefix + suffix;
         checkEmailInput(id);
@@ -309,45 +369,63 @@
         document.getElementById(`status-${id}`).innerText = "拉取图片中...";
         taskCtx[id].token = generateTokenForApi();
         const img = document.getElementById(`captchaImg-${id}`);
+        
         try {
             const res = await fetch(`${MY_PROXY}/getCode?verify_token=${taskCtx[id].token}&t=${new Date().getTime()}`);
             const cookieVal = res.headers.get("X-Yt-Cookie");
             if (cookieVal) taskCtx[id].cookie = cookieVal;
             const base64Text = await res.text();
-            if (base64Text.includes("iVBOR")) { img.src = "data:image/png;base64," + base64Text; document.getElementById(`status-${id}`).innerText = "图片已加载"; taskCtx[id].loaded = true; } 
-            else { document.getElementById(`status-${id}`).innerText = "返回数据异常"; }
+            if (base64Text.includes("iVBOR")) { 
+                img.src = "data:image/png;base64," + base64Text; 
+                document.getElementById(`status-${id}`).innerText = "图片已加载"; 
+                taskCtx[id].loaded = true; 
+            } else { document.getElementById(`status-${id}`).innerText = "返回数据异常"; }
         } catch (e) { document.getElementById(`status-${id}`).innerText = "网络异常"; }
     }
 
     function checkEmailInput(id) {
         const emailVal = document.getElementById(`email-${id}`).value.trim(); 
         const btn = document.getElementById(`btnSend-${id}`);
-        if (emailVal.includes('@') && emailVal.includes('.')) { btn.disabled = false; if (!taskCtx[id].loaded) refreshCaptcha(id); } else { btn.disabled = true; }
+        if (emailVal.includes('@') && emailVal.includes('.')) { 
+            btn.disabled = false; 
+            if (!taskCtx[id].loaded) refreshCaptcha(id); 
+        } else { btn.disabled = true; }
     }
 
+    // ================= 核心重构：120秒 超时 RPA 全自动监听器 =================
     async function autoFetchEmailCode(email, id, catcherApi) {
         const statusEl = document.getElementById(`status-${id}`);
-        statusEl.innerText = "🔄 监听中 (最多 2 分钟)...";
+        statusEl.innerText = "🔄 监听收件箱中(最多等2分钟)...";
+        statusEl.style.color = "#007bff";
+        
         const baseUrl = catcherApi.endsWith('/') ? catcherApi.slice(0, -1) : catcherApi;
         const fetchUrl = `${baseUrl}/get_code?email=${encodeURIComponent(email)}`;
+
+        // 轮询 40 次，每次 3 秒，总计 120 秒 (2分钟)
         for (let i = 0; i < 40; i++) {
             if (id !== 'home' && !activeTasks.includes(id)) return;
+
             try {
                 const res = await fetch(fetchUrl);
                 if (res.ok) {
                     const data = await res.json();
+                    
                     if (data.status === "success" && data.code) {
                         document.getElementById(`emailCode-${id}`).value = data.code;
-                        statusEl.innerText = "⚡ 验证码自动填充";
+                        statusEl.innerText = "⚡ 验证码已截获并自动填充";
+                        statusEl.style.color = "#28a745";
                         showToast("🎉 验证码自动就位！");
+                        
                         setTimeout(() => doRegister(id, true), 1000);
                         return; 
                     }
                 }
             } catch (e) {}
-            await sleep(3000);
+            await new Promise(r => setTimeout(r, 3000));
         }
-        statusEl.innerText = "❌ 接收超时(2分钟)，官方发信拥堵";
+        
+        // 超时后的降级处理
+        statusEl.innerText = "❌ 接收超时(2分钟未收到)，官方发信可能拥堵";
         statusEl.style.color = "#dc3545";
     }
 
@@ -356,22 +434,40 @@
         const captchaValue = document.getElementById(`captchaInput-${id}`).value.trim().toUpperCase(); 
         const btn = document.getElementById(`btnSend-${id}`);
         const statusEl = document.getElementById(`status-${id}`);
-        if(!email || !captchaValue) { if(!isBatchSilenced) showToast("⚠️ 请填写完整信息"); return; }
+        
+        if(!email || !captchaValue) {
+            if(!isBatchSilenced) showToast("⚠️ 请填写完整信息");
+            return;
+        }
         btn.disabled = true; btn.innerText = "发信中"; statusEl.innerText = "请求发信中...";
+        
         try {
             const res = await fetch(`${MY_PROXY}/send_reg_email`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': taskCtx[id].cookie || '' },
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': taskCtx[id].cookie || '' },
                 body: JSON.stringify({ imail: email, verify_token: taskCtx[id].token, verify_code: captchaValue })
             });
             const result = await res.json();
+            
             if(result.code === 1 && result.data) { 
                 if(!isBatchSilenced) showToast("✉️ 邮件发送成功！"); 
                 statusEl.innerText = "✅ 邮件已发送"; 
-                taskCtx[id].codeVali = result.data.code_vali; taskCtx[id].emailVali = result.data.email_vali; 
+                taskCtx[id].codeVali = result.data.code_vali; 
+                taskCtx[id].emailVali = result.data.email_vali; 
+
                 const catcherApi = document.getElementById('mailCatcherUrl').value.trim();
-                if (catcherApi) autoFetchEmailCode(email, id, catcherApi);
-            } else { if(!isBatchSilenced) alert("发送失败: " + (result.msg || "接口异常")); statusEl.innerText = "❌ 失败"; refreshCaptcha(id); }
-        } catch (e) { statusEl.innerText = "网络异常"; } finally { btn.disabled = false; btn.innerText = id === 'home' ? "1. 获取邮件验证码" : "发信"; }
+                if (catcherApi) {
+                    autoFetchEmailCode(email, id, catcherApi);
+                } else {
+                    statusEl.style.color = "#28a745";
+                }
+            } else { 
+                if(!isBatchSilenced) alert("发送失败: " + (result.msg || "接口异常")); 
+                statusEl.innerText = "❌ " + (result.msg || "发送失败"); statusEl.style.color = "#dc3545";
+                refreshCaptcha(id); 
+            }
+        } catch (e) { statusEl.innerText = "网络异常"; } 
+        finally { btn.disabled = false; btn.innerText = id === 'home' ? "1. 获取邮件验证码" : "发信"; }
     }
 
     async function doRegister(id, isBatchSilenced = false) {
@@ -379,29 +475,60 @@
         const code = document.getElementById(`emailCode-${id}`).value.trim();
         const btn = document.getElementById(`btnReg-${id}`);
         const statusEl = document.getElementById(`status-${id}`);
+
         let password, inviteCode;
-        if (id === 'home') { password = document.getElementById('password-home').value.trim(); inviteCode = document.getElementById('inviteCode-home').value.trim(); }
-        else { password = document.getElementById('presetPwd').value.trim(); inviteCode = document.getElementById('presetInvite').value.trim(); if(!password) { if(!isBatchSilenced) showToast("⚠️ 请设置通用密码"); return; } }
-        if(!email || !code || !password || !taskCtx[id].codeVali) { if(!isBatchSilenced) showToast("⚠️ 请确保信息完整"); return; }
-        btn.disabled = true; btn.innerText = "注册中";
+        if (id === 'home') {
+            password = document.getElementById('password-home').value.trim();
+            inviteCode = document.getElementById('inviteCode-home').value.trim();
+        } else {
+            password = document.getElementById('presetPwd').value.trim();
+            inviteCode = document.getElementById('presetInvite').value.trim();
+            if(!password) {
+                if(!isBatchSilenced) showToast("⚠️ 批量流水线强制要求先设置通用预设密码");
+                statusEl.innerText = "缺少预设密码"; statusEl.style.color = "#dc3545"; return;
+            }
+        }
+
+        if(!email || !code || !password || !taskCtx[id].codeVali) {
+            if(!isBatchSilenced) showToast("⚠️ 请确保信息填写完整，且已发信获取凭证"); return;
+        }
+
+        btn.disabled = true; btn.innerText = "注册中"; statusEl.innerText = "注册提交中...";
+
         const payload = { username: email, password: password, email: "", imail: email, invite: inviteCode, code: code, vali_email: taskCtx[id].emailVali, vali_code: taskCtx[id].codeVali };
+
         try {
             const res = await fetch(`${MY_PROXY}/register`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': taskCtx[id].cookie || '' }, body: JSON.stringify(payload)
             });
             const result = await res.json();
             if(result.code === 1) {
-                if(!isBatchSilenced) alert("🎉 账号注册成功！");
-                statusEl.innerText = "✅ 成功归档";
+                if(!isBatchSilenced) {
+                    alert("🎉 恭喜，账号注册成功！\n账号信息已自动存入账本。"); 
+                    if(id === 'home') showToast("✅ 归档成功");
+                }
+                statusEl.innerText = "✅ 注册成功归档"; statusEl.style.color = "#28a745";
+                btn.style.background = "#28a745"; btn.innerText = "已完成";
                 addHistoryRecord(email, password, inviteCode);
-                if (id !== 'home') { const card = document.getElementById(`card-${id}`); card.classList.add('success'); card.querySelectorAll('input,button').forEach(i => i.disabled = true); }
-            } else { statusEl.innerText = "❌ 注册失败"; }
-        } catch (e) { statusEl.innerText = "请求失败"; } finally { btn.disabled = false; btn.innerText = id === 'home' ? "2. 提交注册" : "注册"; }
+                
+                if (id !== 'home') {
+                    const card = document.getElementById(`card-${id}`);
+                    card.classList.add('success');
+                    card.querySelectorAll('input').forEach(i => i.disabled = true);
+                    card.querySelectorAll('button').forEach(b => b.disabled = true);
+                }
+            } else { 
+                if(!isBatchSilenced) alert("注册失败: " + (result.msg || "接口驳回")); 
+                statusEl.innerText = "❌ " + (result.msg || "注册失败"); statusEl.style.color = "#dc3545";
+            }
+        } catch (e) { statusEl.innerText = "网络请求失败"; } 
+        finally { if (statusEl.innerText !== "✅ 注册成功归档") { btn.disabled = false; btn.innerText = id === 'home' ? "2. 提交注册" : "注册"; } }
     }
 
     function addHistoryRecord(email, password, inviteCode) {
         let history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
-        const now = new Date(); const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        const now = new Date();
+        const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
         history.unshift({ email: email, password: password, invite: inviteCode || '无', time: timeString });
         localStorage.setItem('ytHistory', JSON.stringify(history)); renderHistory();
         if (document.getElementById('toggleWebDAV').checked) syncToWebDAV(false);
@@ -411,7 +538,8 @@
         const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
         const container = document.getElementById('historyContainer');
         if (history.length === 0) return container.innerHTML = '<div class="empty-tip">暂无注册成功的账号</div>';
-        let html = ''; history.forEach(item => { html += `<div class="history-card"><div class="history-time">${item.time}</div><div>账号：<strong>${item.email}</strong></div><div>密码：<strong>${item.password}</strong></div><div>邀请码：${item.invite}</div></div>`; });
+        let html = '';
+        history.forEach(item => { html += `<div class="history-card"><div class="history-time">${item.time}</div><div>账号：<strong>${item.email}</strong></div><div>密码：<strong>${item.password}</strong></div><div>邀请码：${item.invite}</div></div>`; });
         container.innerHTML = html;
     }
 
@@ -432,14 +560,19 @@
     }
 
     async function syncToWebDAV(isManual) {
+        const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
+        if (history.length === 0 && isManual) return showToast("本地暂无记录，无需同步");
         const url = document.getElementById('webdavUrl').value.trim(), user = document.getElementById('webdavUser').value.trim(), pwd = document.getElementById('webdavPwd').value.trim();
         if (!url || !user || !pwd) { if (isManual) showToast("⚠️ 请填写完整的 WebDAV 配置"); return; }
-        if (isManual) showToast("正在同步...");
+        if (isManual) showToast("正在同步到云端...");
         try {
             const base64Auth = btoa(unescape(encodeURIComponent(user + ':' + pwd)));
             const response = await fetch(url, { method: 'PUT', headers: { 'Authorization': 'Basic ' + base64Auth, 'Content-Type': 'text/csv; charset=utf-8' }, body: getCsvContent() });
             if (response.ok || response.status === 201 || response.status === 204) { if (isManual) showToast("✅ 云端同步成功！"); } 
             else { if (isManual) alert(`❌ 同步失败 (状态码 ${response.status})`); }
-        } catch (error) { if (isManual) alert(`❌ 网络请求失败`); }
+        } catch (error) { if (isManual) alert(`❌ 网络请求失败，请检查链接`); }
     }
 </script>
+
+</body>
+</html>
