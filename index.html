@@ -13,7 +13,7 @@
         input:focus { border-color: #007bff; outline: none; }
         .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
         .captcha-row input { margin-bottom: 0; flex: 1; }
-        .captcha-row img { height: 42px; width: 100px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fafafa; object-fit: cover; }
+        .captcha-row img { height: 42px; width: 100px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #e9ecef; object-fit: cover; }
         
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; margin-bottom: 15px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
         button.secondary { background: #007bff; }
@@ -34,7 +34,7 @@
     
     <div class="captcha-row">
         <input type="text" id="captchaInput" placeholder="输入右侧图形验证码">
-        <img id="captchaImg" src="" onclick="refreshCaptcha()" title="点击刷新" alt="等待输入邮箱...">
+        <img id="captchaImg" src="" onclick="refreshCaptcha()" title="点击刷新" alt="等待输入...">
     </div>
 
     <button class="secondary" onclick="sendEmail()" id="btnSend" disabled>请先输入正确的邮箱</button>
@@ -56,61 +56,61 @@
 </div>
 
 <script>
-    // 官方目标 API 基础路径
     const TARGET_BASE = "https://api.yt001.cc/index.php/api/user";
-    // 免费公共跨域代理 (仅用于 POST 请求发数据)
     const CORS_PROXY = "https://corsproxy.io/?"; 
+    // 专门用于代理二进制图片流的节点，能有效绕过防盗链
+    const IMAGE_PROXY = "https://api.allorigins.win/raw?url="; 
     
     let currentVerifyToken = "";
     let tempCodeVali = "";
     let tempEmailVali = "";
-    let isCaptchaLoaded = false; // 记录图形验证码是否已经加载过
+    let isCaptchaLoaded = false;
 
-    // 随机生成 Token
+    // 升级版：生成高仿真度的 32 位 Token
     function generateToken() {
-        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let token = '';
+        for (let i = 0; i < 32; i++) {
+            token += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return token;
     }
 
     // 刷新验证码图片
     function refreshCaptcha() {
-        document.getElementById('status').innerText = "正在加载验证码...";
+        document.getElementById('status').innerText = "正在通过代理获取图片...";
         currentVerifyToken = generateToken();
         const img = document.getElementById('captchaImg');
         
-        // 核心修复：图片直接请求官方地址，绕过故障的跨域代理
+        // 目标图片地址
         const targetUrl = `${TARGET_BASE}/getCode?verify_token=${currentVerifyToken}&t=${new Date().getTime()}`;
-        img.src = targetUrl; 
+        
+        // 核心修复：使用 allorigins raw 代理强行抓取图片并返回二进制
+        img.src = IMAGE_PROXY + encodeURIComponent(targetUrl); 
         
         img.onload = () => {
             document.getElementById('status').innerText = "验证码加载成功";
             isCaptchaLoaded = true;
         };
-        img.onerror = () => document.getElementById('status').innerText = "验证码加载失败，请点击图片重试";
+        img.onerror = () => document.getElementById('status').innerText = "加载失败，官方防盗链极严";
     }
 
-    // ========== 新增：邮箱输入实时检测逻辑 ==========
+    // 邮箱输入实时检测
     document.getElementById('email').addEventListener('input', function() {
         const emailVal = this.value.trim();
         const btn = document.getElementById('btnSend');
         
-        // 简单的邮箱格式校验：必须包含 @ 和 .
         if (emailVal.includes('@') && emailVal.includes('.')) {
-            // 邮箱格式合格：激活按钮
             btn.disabled = false;
             btn.innerText = "1. 获取邮件验证码";
-            
-            // 如果图形验证码还没加载过，就自动触发一次加载
-            if (!isCaptchaLoaded) {
-                refreshCaptcha();
-            }
+            if (!isCaptchaLoaded) refreshCaptcha();
         } else {
-            // 邮箱格式不合格：禁用按钮
             btn.disabled = true;
             btn.innerText = "请先输入正确的邮箱";
         }
     });
 
-    // ========== 发送邮件验证码 ==========
+    // 发送邮件验证码
     async function sendEmail() {
         const email = document.getElementById('email').value.trim();
         const captchaValue = document.getElementById('captchaInput').value.trim();
@@ -127,7 +127,6 @@
         const targetUrl = `${TARGET_BASE}/send_reg_email`;
         
         try {
-            // POST 请求依然需要用代理来解决跨域
             const res = await fetch(CORS_PROXY + encodeURIComponent(targetUrl), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -146,7 +145,7 @@
                 tempEmailVali = result.data.email_vali;
             } else {
                 alert("发送失败: " + (result.msg || JSON.stringify(result)));
-                refreshCaptcha(); // 发送失败自动刷新验证码
+                refreshCaptcha(); 
             }
         } catch (e) {
             alert("请求代理失败，可能是网络问题或代理限制");
@@ -156,7 +155,7 @@
         }
     }
 
-    // ========== 提交最终注册 ==========
+    // 提交最终注册
     async function doRegister() {
         const email = document.getElementById('email').value.trim();
         const code = document.getElementById('emailCode').value.trim();
