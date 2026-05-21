@@ -47,7 +47,7 @@
     </div>
     <button onclick="doRegister()" id="btnReg">2. 提交注册</button>
 
-    <div class="version-text">Version: v1.4.0 (字段精准匹配版)</div>
+    <div class="version-text">Version: v1.5.0 (终极通关版)</div>
 </div>
 
 <script>
@@ -129,7 +129,6 @@
                 body: JSON.stringify({ 
                     imail: email, 
                     verify_token: currentVerifyToken,
-                    // 【核心修改点】：完美匹配官方接口的字段名
                     verify_code: captchaValue  
                 })
             });
@@ -167,13 +166,16 @@
         btn.disabled = true;
         btn.innerText = "注册提交中...";
 
+        // 终极修复：严格1比1复刻官方的 Payload 结构
         const payload = {
-            imail: email,
-            code: code,
+            username: email,              // 官方拿邮箱当用户名
             password: password,
-            invite_code: inviteCode,
-            code_vali: tempCodeVali,
-            email_vali: tempEmailVali
+            email: "",                    // 官方强行要求的一个空字段
+            imail: email,
+            invite: inviteCode,           // 改为 invite
+            code: code,
+            vali_email: tempEmailVali,    // 名字反转：email_vali -> vali_email
+            vali_code: tempCodeVali       // 名字反转：code_vali -> vali_code
         };
 
         try {
