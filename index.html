@@ -3,54 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>专属注册入口</title>
+    <title>专属注册工具</title>
     <style>
-        body { font-family: -apple-system, sans-serif; padding: 20px; background: #f0f2f5; margin: 0; }
-        .box { background: #fff; padding: 20px; border-radius: 12px; max-width: 400px; margin: 20px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 70px; /* 给底部导航留出空间 */ }
+        .box { background: #fff; padding: 20px; border-radius: 12px; margin: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h3 { text-align: center; color: #333; margin-top: 0; }
+        
+        /* 表单样式 */
         .input-group { margin-bottom: 12px; }
         input { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
         input:focus { border-color: #007bff; outline: none; }
+        input:read-only { background-color: #f8f9fa; color: #666; }
+        
+        /* 带开关的同行布局 */
+        .input-with-switch { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .input-with-switch input { flex: 1; margin-bottom: 0; }
+        
+        /* 验证码同行布局 */
         .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
         .captcha-row input { margin-bottom: 0; flex: 1; }
         .captcha-row img { height: 42px; width: 120px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #fff; object-fit: contain; padding: 2px; box-sizing: border-box; }
+        
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; margin-bottom: 15px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
         button.secondary { background: #007bff; }
         button:disabled { background: #ccc; cursor: not-allowed; }
         hr { border: 0; border-top: 1px dashed #ddd; margin: 20px 0; }
         #status { font-size: 12px; color: #666; text-align: center; margin-top: 10px; }
+        
+        /* iOS 风格开关开关 */
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        
+        /* 页面切换逻辑 */
+        .page { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 底部导航栏 */
+        .tab-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #ddd; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item { flex: 1; text-align: center; padding: 12px 0; font-size: 14px; color: #666; cursor: pointer; transition: color 0.3s; }
+        .tab-item.active { color: #007bff; font-weight: bold; }
+        
+        /* 历史记录卡片 */
+        .history-card { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; position: relative; }
+        .history-card strong { color: #333; }
+        .history-time { font-size: 11px; color: #999; margin-bottom: 5px; }
+        .empty-tip { text-align: center; color: #999; font-size: 13px; padding: 20px 0; }
+        
         .version-text { font-size: 11px; color: #aaa; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h3>注册账号</h3>
-    <div class="input-group">
-        <input type="email" id="email" placeholder="输入邮箱 (例如: xxx@xxx.com)">
+<div id="page-home" class="page active">
+    <div class="box">
+        <h3>注册账号</h3>
+        <div class="input-group">
+            <input type="email" id="email" placeholder="输入邮箱 (例如: xxx@xxx.com)">
+        </div>
+        <div class="captcha-row">
+            <input type="text" id="captchaInput" placeholder="输入右侧图形验证码" style="text-transform: uppercase;">
+            <img id="captchaImg" src="" onclick="refreshCaptcha()" title="点击刷新" alt="等待输入...">
+        </div>
+        <button class="secondary" onclick="sendEmail()" id="btnSend" disabled>请先输入正确的邮箱</button>
+        <div id="status">填写邮箱后自动加载验证码</div>
+        
+        <hr>
+        
+        <div class="input-group">
+            <input type="text" id="emailCode" placeholder="输入邮箱收到的6位验证码">
+        </div>
+        
+        <div class="input-with-switch">
+            <input type="password" id="password" placeholder="设置密码">
+            <label class="switch" title="启用预设密码">
+                <input type="checkbox" id="togglePwd" onchange="applyPresets()">
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="input-with-switch">
+            <input type="text" id="inviteCode" placeholder="邀请码 (必填/选填)">
+            <label class="switch" title="启用预设邀请码">
+                <input type="checkbox" id="toggleInvite" onchange="applyPresets()">
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <button onclick="doRegister()" id="btnReg">2. 提交注册</button>
+        <div class="version-text">Version: v1.6.0 (本地多功能版)</div>
     </div>
-    <div class="captcha-row">
-        <input type="text" id="captchaInput" placeholder="输入右侧图形验证码" style="text-transform: uppercase;">
-        <img id="captchaImg" src="" onclick="refreshCaptcha()" title="点击刷新" alt="等待输入...">
-    </div>
-    <button class="secondary" onclick="sendEmail()" id="btnSend" disabled>请先输入正确的邮箱</button>
-    <div id="status">填写邮箱后自动加载验证码</div>
-    <hr>
-    <div class="input-group">
-        <input type="text" id="emailCode" placeholder="输入邮箱收到的6位验证码">
-    </div>
-    <div class="input-group">
-        <input type="password" id="password" placeholder="设置密码 (尽量包含字母和数字)">
-    </div>
-    <div class="input-group">
-        <input type="text" id="inviteCode" placeholder="邀请码 (必填/选填)">
-    </div>
-    <button onclick="doRegister()" id="btnReg">2. 提交注册</button>
+</div>
 
-    <div class="version-text">Version: v1.5.0 (终极通关版)</div>
+<div id="page-my" class="page">
+    <div class="box">
+        <h3>通用设置</h3>
+        <p style="font-size: 12px; color: #666; margin-top: 0;">设置后，可在首页打开开关一键填充</p>
+        <div class="input-group">
+            <label style="font-size: 12px; color: #333; margin-bottom: 5px; display: block;">预设统一密码</label>
+            <input type="text" id="presetPwd" placeholder="在此输入预设密码" oninput="saveSettings()">
+        </div>
+        <div class="input-group">
+            <label style="font-size: 12px; color: #333; margin-bottom: 5px; display: block;">预设邀请码</label>
+            <input type="text" id="presetInvite" placeholder="在此输入预设邀请码" oninput="saveSettings()">
+        </div>
+    </div>
+    
+    <div class="box">
+        <h3>成功注册记录</h3>
+        <div id="historyContainer"></div>
+    </div>
+</div>
+
+<div class="tab-bar">
+    <div class="tab-item active" onclick="switchTab('home', this)">首页</div>
+    <div class="tab-item" onclick="switchTab('my', this)">我的</div>
 </div>
 
 <script>
+    // ================= 配置区 =================
     const MY_PROXY = "https://broken-smoke-6508.zad13.workers.dev"; 
     
     let currentVerifyToken = "";
@@ -59,6 +134,124 @@
     let isCaptchaLoaded = false;
     let currentSessionCookie = "";
 
+    // ================= 初始化与本地存储逻辑 =================
+    window.onload = function() {
+        loadSettings();
+        renderHistory();
+    };
+
+    // 读取本地设置
+    function loadSettings() {
+        const settings = JSON.parse(localStorage.getItem('ytSettings') || '{}');
+        // 恢复我的页面输入框的值
+        document.getElementById('presetPwd').value = settings.presetPwd || '';
+        document.getElementById('presetInvite').value = settings.presetInvite || '';
+        // 恢复首页开关的状态
+        document.getElementById('togglePwd').checked = settings.usePresetPwd || false;
+        document.getElementById('toggleInvite').checked = settings.usePresetInvite || false;
+        // 应用预设到首页输入框
+        applyPresets();
+    }
+
+    // 保存设置 (当在"我的"页面输入或在"首页"拨动开关时触发)
+    function saveSettings() {
+        const settings = {
+            presetPwd: document.getElementById('presetPwd').value.trim(),
+            presetInvite: document.getElementById('presetInvite').value.trim(),
+            usePresetPwd: document.getElementById('togglePwd').checked,
+            usePresetInvite: document.getElementById('toggleInvite').checked
+        };
+        localStorage.setItem('ytSettings', JSON.stringify(settings));
+    }
+
+    // 将预设值应用到首页表单
+    function applyPresets() {
+        saveSettings(); // 开关变化时先保存状态
+        const pwdInput = document.getElementById('password');
+        const inviteInput = document.getElementById('inviteCode');
+        const presetPwd = document.getElementById('presetPwd').value.trim();
+        const presetInvite = document.getElementById('presetInvite').value.trim();
+        const usePwd = document.getElementById('togglePwd').checked;
+        const useInvite = document.getElementById('toggleInvite').checked;
+
+        if (usePwd && presetPwd) {
+            pwdInput.value = presetPwd;
+            pwdInput.readOnly = true; // 开启预设时，设为只读，体验更好
+        } else {
+            if (usePwd && !presetPwd) alert("请先前往「我的」页面设置预设密码");
+            pwdInput.value = "";
+            pwdInput.readOnly = false;
+            document.getElementById('togglePwd').checked = false; // 复位开关
+        }
+
+        if (useInvite && presetInvite) {
+            inviteInput.value = presetInvite;
+            inviteInput.readOnly = true;
+        } else {
+            if (useInvite && !presetInvite) alert("请先前往「我的」页面设置预设邀请码");
+            inviteInput.value = "";
+            inviteInput.readOnly = false;
+            document.getElementById('toggleInvite').checked = false;
+        }
+        saveSettings(); // 如果开关被复位，重新保存一下
+    }
+
+    // 追加成功注册的记录
+    function addHistoryRecord(email, password, inviteCode) {
+        let history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
+        const now = new Date();
+        const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        
+        history.unshift({
+            email: email,
+            password: password,
+            invite: inviteCode || '无',
+            time: timeString
+        });
+        
+        localStorage.setItem('ytHistory', JSON.stringify(history));
+        renderHistory(); // 重新渲染列表
+    }
+
+    // 渲染历史记录列表
+    function renderHistory() {
+        const history = JSON.parse(localStorage.getItem('ytHistory') || '[]');
+        const container = document.getElementById('historyContainer');
+        
+        if (history.length === 0) {
+            container.innerHTML = '<div class="empty-tip">暂无注册成功的账号</div>';
+            return;
+        }
+        
+        let html = '';
+        history.forEach(item => {
+            html += `
+                <div class="history-card">
+                    <div class="history-time">${item.time}</div>
+                    <div>账号：<strong>${item.email}</strong></div>
+                    <div>密码：<strong>${item.password}</strong></div>
+                    <div>邀请码：${item.invite}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // ================= 页面切换逻辑 =================
+    function switchTab(tabName, el) {
+        // 更新导航栏样式
+        document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+        el.classList.add('active');
+        
+        // 切换页面显示
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(`page-${tabName}`).classList.add('active');
+        
+        // 每次切回首页时，自动应用一下预设 (防止在我的页面改了没生效)
+        if(tabName === 'home') applyPresets();
+    }
+
+    // ================= 核心注册网络请求 =================
     function generateToken() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let token = '';
@@ -111,10 +304,7 @@
         const captchaValue = document.getElementById('captchaInput').value.trim().toUpperCase(); 
         const btn = document.getElementById('btnSend');
         
-        if(!email || !captchaValue) {
-            alert("请填写完整邮箱和图形验证码");
-            return;
-        }
+        if(!email || !captchaValue) return alert("请填写完整邮箱和图形验证码");
 
         btn.disabled = true;
         btn.innerText = "发送中...";
@@ -122,15 +312,8 @@
         try {
             const res = await fetch(`${MY_PROXY}/send_reg_email`, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-Yt-Cookie': currentSessionCookie 
-                },
-                body: JSON.stringify({ 
-                    imail: email, 
-                    verify_token: currentVerifyToken,
-                    verify_code: captchaValue  
-                })
+                headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': currentSessionCookie },
+                body: JSON.stringify({ imail: email, verify_token: currentVerifyToken, verify_code: captchaValue })
             });
             const result = await res.json();
             
@@ -158,40 +341,37 @@
         const inviteCode = document.getElementById('inviteCode').value.trim();
         const btn = document.getElementById('btnReg');
 
-        if(!email || !code || !password || !tempCodeVali) {
-            alert("请确保已成功收到邮件验证码，并填完了所有必填项！");
-            return;
-        }
+        if(!email || !code || !password || !tempCodeVali) return alert("请确保已成功收到邮件验证码，并填完了所有必填项！");
 
         btn.disabled = true;
         btn.innerText = "注册提交中...";
 
-        // 终极修复：严格1比1复刻官方的 Payload 结构
         const payload = {
-            username: email,              // 官方拿邮箱当用户名
+            username: email,
             password: password,
-            email: "",                    // 官方强行要求的一个空字段
+            email: "",
             imail: email,
-            invite: inviteCode,           // 改为 invite
+            invite: inviteCode,
             code: code,
-            vali_email: tempEmailVali,    // 名字反转：email_vali -> vali_email
-            vali_code: tempCodeVali       // 名字反转：code_vali -> vali_code
+            vali_email: tempEmailVali,
+            vali_code: tempCodeVali
         };
 
         try {
             const res = await fetch(`${MY_PROXY}/register`, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-Yt-Cookie': currentSessionCookie
-                },
+                headers: { 'Content-Type': 'application/json', 'X-Yt-Cookie': currentSessionCookie },
                 body: JSON.stringify(payload)
             });
             const result = await res.json();
             
             if(result.code === 1) {
-                alert("🎉 恭喜你，账号注册成功！");
+                alert("🎉 恭喜你，账号注册成功！\n账号信息已自动保存在「我的」记录中。");
                 document.getElementById('status').innerText = "账号注册完成";
+                
+                // 【核心逻辑】：注册成功后，调用账本函数记录下来
+                addHistoryRecord(email, password, inviteCode);
+                
             } else {
                 alert("注册失败: " + (result.msg || JSON.stringify(result)));
             }
